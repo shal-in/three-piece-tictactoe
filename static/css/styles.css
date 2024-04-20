@@ -1,0 +1,87 @@
+
+
+:root{
+    --BG-col-main: var(--BG-col-dark);
+    --X-col-1-main: var(--X-col-1-dark);
+    --X-col-2-main: var(--X-col-2-dark);
+    --O-col-1-main: var(--O-col-1-dark);
+    --O-col-2-main: var(--O-col-2-dark);
+
+    --BG-col-dark: #1B1B1E;
+    --X-col-1-dark: #A882DD;
+    --X-col-2-dark: #4A2380;
+    --O-col-1-dark: #E15166;
+    --O-col-2-dark: #9D1B2E;
+
+    --BG-col-light: white;
+    --X-col-1-light: black;
+    --X-col-2-light: grey;
+    --O-col-1-light: blue;
+    --O-col-2-light: aliceblue;
+}
+
+body{
+    background-color: var(--BG-col-main);
+    justify-content: center;
+    max-width: 1280px;
+    border: 1px solid purple;
+}
+
+section{
+    margin: auto;
+    border: 1px solid red;
+    max-width: 300px;
+}
+
+#gameboard{
+    /* border: 3px solid black; */
+    width: 300px;
+    height: 300px;
+
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+}
+
+.gameboard-grid{
+    border: 1px solid blue;
+    font-size: 80px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.move-svg{
+    height: 90px;
+    width: auto;
+}
+
+.O-svg{
+    rotate: 250deg;
+}
+
+.gameboard-grid:hover{
+    background-color: rebeccapurple;
+}
+
+/* Left column  */
+#gameboard-grid-00, #gameboard-grid-10, #gameboard-grid-20{
+    border-left: none;
+}
+/* Right column */
+#gameboard-grid-02, #gameboard-grid-12, #gameboard-grid-22{
+    border-right: none;
+}
+
+/* Top row */
+#gameboard-grid-00, #gameboard-grid-01, #gameboard-grid-02{
+    border-top: none;
+}
+
+/* Bottom row */
+#gameboard-grid-20, #gameboard-grid-21, #gameboard-grid-22{
+    border-bottom: none;
+}
+
+
