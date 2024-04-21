@@ -62,7 +62,7 @@ section{
 }
 
 .gameboard-grid:hover{
-    background-color: rebeccapurple;
+    
 }
 
 /* Left column  */
@@ -83,5 +83,4 @@ section{
 #gameboard-grid-20, #gameboard-grid-21, #gameboard-grid-22{
     border-bottom: none;
 }
-
 
