@@ -4,9 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/styles.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <title>three-piece tictactoe by shalin</title>
+    <title>three-piece tictactoe</title>
 </head>
 <body>
     <button id="themes-btn">Theme</button>
@@ -16,26 +14,18 @@
         </div>
     
         <div id="content-container">
-            <div id="gameboard">
-                <div class="gameboard-grid" id="gameboard-grid-0"></div>
-                <div class="gameboard-grid" id="gameboard-grid-1"></div>
-                <div class="gameboard-grid" id="gameboard-grid-2"></div>
-                <div class="gameboard-grid" id="gameboard-grid-3"></div>
-                <div class="gameboard-grid" id="gameboard-grid-4"></div>
-                <div class="gameboard-grid" id="gameboard-grid-5"></div>
-                <div class="gameboard-grid" id="gameboard-grid-6"></div>
-                <div class="gameboard-grid" id="gameboard-grid-7"></div>
-                <div class="gameboard-grid" id="gameboard-grid-8"></div>
-            </div>
+            <button class="landing-btn" id="local-btn">Local</button>
+            <button class="landing-btn" id="online-btn">Online</button>
+            <input type="text" id="join-input">
+            <button class="landing-btn" id="join-btn">Join</button>
         </div>
     
         <div id="footer-container">
             &copy; Shalin Ahasan
         </div>
     </section>
-    
+
     <script src="/socket.io/socket.io.js"></script>
     <script type="text/javascript" src="/js/index.js"></script>
-    <script type="text/javascript" src="/js/socket_test.js"></script>
 </body>
 </html>
