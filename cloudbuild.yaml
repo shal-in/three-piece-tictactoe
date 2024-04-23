@@ -1,0 +1,20 @@
+steps:
+  # Step 1: Build the Docker image
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'gcr.io/three-piece-tictactoe/three-piece-tictactoe:2dc382c', '.']
+
+  # Step 2: Push the Docker image to Container Registry
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/three-piece-tictactoe/three-piece-tictactoe:2dc382c']
+
+  # Step 3: Deploy to Cloud Run
+  - name: 'gcr.io/cloud-builders/gcloud'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        gcloud beta run deploy continuous-deployment-trial \
+            --region=europe-west1 \
+            --platform=managed \
+            --image=gcr.io/three-piece-tictactoe/three-piece-tictactoe:2dc382c \
+            --allow-unauthenticated
