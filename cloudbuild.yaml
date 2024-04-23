@@ -13,7 +13,7 @@ steps:
     args:
       - '-c'
       - |
-        gcloud beta run deploy continuous-deployment-trial \
+        gcloud beta run deploy three-piece-tictactoe \
             --region=europe-west1 \
             --platform=managed \
             --image=gcr.io/three-piece-tictactoe/three-piece-tictactoe:2dc382c \
