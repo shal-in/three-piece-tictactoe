@@ -16,6 +16,8 @@ app.use((req, res, next) => {
     next();
 });
 
+
+const rooms = {};
 // Define routes for different URLs
 app.get("/", (req, res) => {
     res.sendFile(path.join(publicPath, "index.html"));
@@ -28,13 +30,20 @@ app.get("/online", (req, res) => {
 
 app.get("/createGame", (req, res) => {
     const gameCode = generateUniqueGameCode();
-    console.log(gameCode);
 
     const game = {
-        users: []
+        "gameArray": ["", "", "", "", "", "", "", "", ""],
+        "lastMoves": [],
+        "currentTurn": "", 
+        "gameState": "waiting"
+    }
+    const room = {
+        "users": [],
+        "gameCode": gameCode,
+        "game": game,
     }
 
-    rooms[gameCode] = game
+    rooms[gameCode] = room
 
     const responseData = {
         "status": "success",
@@ -49,12 +58,9 @@ app.post("/joinGame", (req, res) => {
 
     if (!rooms[gameCode]) {
         // room does not exist
-        console.log("room does not exist");
-
         const responseData = {
             "status": "failure",
-            "failureReason": "Game lobby does not exist. Please enter an active game code, or create a new game.",
-            "gameCode": gameCode
+            "failureReason": "Game lobby does not exist. Please enter an active game code, or create a new game."
         }
 
         res.json(responseData);
@@ -63,12 +69,9 @@ app.post("/joinGame", (req, res) => {
 
     if (rooms[gameCode].users === 2) {
         // room is full
-        console.log("room is full");
-
         const responseData = {
             "status": "failure",
-            "failureReason": "Game lobby is full. Please create a new game, and invite your friends.",
-            "gameCode": gameCode
+            "failureReason": "Game lobby is full. Please create a new game, and invite your friends."
         }
 
         res.json(responseData);
@@ -87,19 +90,18 @@ app.get("/:code", (req, res) => {
     const code = req.params.code;
     
     if (rooms[code]) {
-        if (rooms[code].users.length >= 2) {
-            return res.redirect("/");
-        }
         return res.sendFile(path.join(publicPath, "online.html"));
     }
 
-    // If the room doesn't exist, or any other condition, redirect to the home page
+    // If the room doesn"t exist, or any other condition, redirect to the home page
     return res.redirect("/");
 });
 
 
 
-rooms = {}; userSessions = {};
+
+
+
 io.on("connection", (socket) => {
     let sessionID = socket.id;
     // console.log(`${sessionID} just connected.`)
@@ -111,9 +113,18 @@ io.on("connection", (socket) => {
 
     socket.on("gameConnect", (data) => {
         let gameCode = data.gameCode;
+
+        if (rooms[gameCode].users.length >= 2) {
+            socket.emit("gameConnectResponse", {
+                "status": "failure",
+                "failureReason": "Game lobby full. Please create a new game."
+            })
+        }
+
         let playerID;
         if (rooms[gameCode].users.length === 0) {
             playerID = "X";
+            rooms[gameCode].game.currentTurn = "X";
         }
         else {
             playerID = "O"
@@ -123,14 +134,13 @@ io.on("connection", (socket) => {
             "sessionID": sessionID,
             "playerID": playerID
         }
+        
         rooms[gameCode].users.push(userData);
-
-        console.log(`CONNECT - ${gameCode} users: ${rooms[gameCode].users[0]}, ${rooms[gameCode].users[1]}`)
 
         socket.emit("gameConnectResponse", {
             "status": "success",
-            "gameCode": gameCode,
-            "playerID": playerID
+            "userData": userData,
+            "game": rooms[gameCode].game
         })
     })
 
@@ -140,14 +150,49 @@ io.on("connection", (socket) => {
 
         for (let userData of rooms[gameCode].users) {
             if (userData.sessionID === oldSessionID) {
-                console.log("old: " + userData.sessionID)
                 userData.sessionID = sessionID;
-                console.log("new: " + userData.sessionID)
 
-                socket.emit("gameReconnectResponse", {
+                socket.emit("gameConnectResponse", {
                     "status": "success",
-                    "gameCode": gameCode,
-                    "playerID": userData.playerID
+                    "userData": userData,
+                    "game": rooms[gameCode].game
+                })
+            }
+        }
+    })
+
+    socket.on("gameMove", (data) => {
+        let move = data.move;
+        gameCode = data.gameCode;
+    
+        if (rooms[gameCode].game.gameState === "waiting") {
+            rooms[gameCode].game.gameState = "playing";
+        }
+
+        rooms[gameCode].game.gameArray[move.id] = move.playerID;
+        rooms[gameCode].game.lastMoves.push(move);
+
+        if (rooms[gameCode].game.lastMoves.length > 6) {
+            let removeMove = rooms[gameCode].game.lastMoves[0];
+            rooms[gameCode].game.gameArray[removeMove.id] = "";
+
+            rooms[gameCode].game.lastMoves.splice(0, rooms[gameCode].game.lastMoves.length - 6);
+        }
+
+        currentTurn = rooms[gameCode].game.currentTurn;
+        rooms[gameCode].game.currentTurn = changeTurn(currentTurn);
+
+        winner = checkWinner(rooms[gameCode].game.gameArray);
+        if (winner) {
+            rooms[gameCode].game.gameState = "finished";
+            rooms[gameCode].game.winner = winner
+        }
+
+        for (userData of rooms[gameCode].users) {
+            if (userData.sessionID) {
+                io.to(userData.sessionID).emit("gameMoveResponse", {
+                    "status": "success",
+                    "game": rooms[gameCode].game
                 })
             }
         }
@@ -218,3 +263,35 @@ function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
   
+function changeTurn(currentTurn) {
+    if (currentTurn == "X") {
+        return "O"
+    }
+    else {
+        return "X"
+    }
+}
+
+function checkWinner(board) {
+    // Define all possible winning combinations
+    const winningCombinations = [
+        [0, 1, 2], [3, 4, 5], [6, 7, 8], // Rows
+        [0, 3, 6], [1, 4, 7], [2, 5, 8], // Columns
+        [0, 4, 8], [2, 4, 6] // Diagonals
+    ];
+
+    // Iterate through each winning combination
+    for (const combination of winningCombinations) {
+        const [a, b, c] = combination;
+        // Check if the elements at the indexes in the combination are equal and not empty
+        if (board[a] !== '' && board[a] === board[b] && board[a] === board[c]) {
+            // If they are equal, we have a winner
+            return {
+                "id": board[a], 
+            "grids": combination}; // Return the winning symbol ('X' or 'O')
+        }
+    }
+
+    // If no winner is found after checking all combinations, return null
+    return null;
+}
