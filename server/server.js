@@ -9,9 +9,8 @@ let app = express();
 let server = http.createServer(app);
 let io = socketIO(server);
 
+app.use(express.json());
 app.use(express.static(publicPath));
-
-// Middleware to pass socket object to the route handler
 app.use((req, res, next) => {
     req.io = io;
     next();
@@ -23,7 +22,6 @@ app.get("/", (req, res) => {
 });
 
 app.get("/online", (req, res) => {
-    // Access the socket object from req and use it as needed
     const io = req.io;
     res.sendFile(path.join(publicPath, "online.html"));
 })
@@ -38,47 +36,101 @@ app.get("/createGame", (req, res) => {
 
     rooms[gameCode] = game
 
-    // This is the data you want to send back to the client
     const responseData = {
         "status": "success",
         "gameCode": gameCode
     };
     
-    // Send the data as JSON
     res.json(responseData);
 }); 
 
-app.get("/:code", (req, res) => {
-    const code = req.params.code; // Extract the code from the request parameters
-    
-    if (rooms[code]) {
-        res.sendFile(path.join(publicPath, "online.html"));
+app.post("/joinGame", (req, res) => {
+    const gameCode = req.body.gameCode;
+
+    if (!rooms[gameCode]) {
+        // room does not exist
+        console.log("room does not exist");
+
+        const responseData = {
+            "status": "failure",
+            "failureReason": "Game lobby does not exist. Please enter an active game code, or create a new game.",
+            "gameCode": gameCode
+        }
+
+        res.json(responseData);
+        return;
     }
 
-    else {
-        res.redirect("/");
+    if (rooms[gameCode].users === 2) {
+        // room is full
+        console.log("room is full");
+
+        const responseData = {
+            "status": "failure",
+            "failureReason": "Game lobby is full. Please create a new game, and invite your friends.",
+            "gameCode": gameCode
+        }
+
+        res.json(responseData);
+        return;
     }
+
+    const responseData = {
+        "status": "success",
+        "gameCode": gameCode
+    };
+
+    res.json(responseData);
+})
+
+app.get("/:code", (req, res) => {
+    const code = req.params.code;
+    
+    if (rooms[code]) {
+        if (rooms[code].users.length >= 2) {
+            return res.redirect("/");
+        }
+        return res.sendFile(path.join(publicPath, "online.html"));
+    }
+
+    // If the room doesn't exist, or any other condition, redirect to the home page
+    return res.redirect("/");
 });
+
 
 
 rooms = {}; userSessions = {};
 io.on("connection", (socket) => {
     let sessionID = socket.id;
-    console.log(`${sessionID} just connected.`)
+    // console.log(`${sessionID} just connected.`)
 
     socket.emit("connectionResponse", {
-        "status": "successful",
+        "status": "success",
         "sessionID": sessionID
     })
 
     socket.on("gameConnect", (data) => {
         let gameCode = data.gameCode;
-        rooms[gameCode].users.push(sessionID);
+        let playerID;
+        if (rooms[gameCode].users.length === 0) {
+            playerID = "X";
+        }
+        else {
+            playerID = "O"
+        }
+        
+        let userData = {
+            "sessionID": sessionID,
+            "playerID": playerID
+        }
+        rooms[gameCode].users.push(userData);
 
-        console.log(`${gameCode}: ${rooms[gameCode].users}`)
+        console.log(`CONNECT - ${gameCode} users: ${rooms[gameCode].users[0]}, ${rooms[gameCode].users[1]}`)
 
-        socket.emit("connectResponse", {
-            'status': 'successful'
+        socket.emit("gameConnectResponse", {
+            "status": "success",
+            "gameCode": gameCode,
+            "playerID": playerID
         })
     })
 
@@ -86,15 +138,23 @@ io.on("connection", (socket) => {
         let gameCode = data.gameCode;
         let oldSessionID = data.oldSessionID;
 
-        console.log("old: " + rooms[gameCode].users);
+        for (let userData of rooms[gameCode].users) {
+            if (userData.sessionID === oldSessionID) {
+                console.log("old: " + userData.sessionID)
+                userData.sessionID = sessionID;
+                console.log("new: " + userData.sessionID)
 
-        rooms[gameCode].users = rooms[gameCode].users.map(item => item === oldSessionID ? sessionID : item);
-
-        console.log("new: " + rooms[gameCode].users);
+                socket.emit("gameReconnectResponse", {
+                    "status": "success",
+                    "gameCode": gameCode,
+                    "playerID": userData.playerID
+                })
+            }
+        }
     })
 
     socket.on("disconnect", () => {
-        console.log(`${sessionID} disconnected.`)
+        // console.log(`${sessionID} disconnected.`)
     })
 })
 
