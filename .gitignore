@@ -3,3 +3,7 @@ node_modules/
 test.ipynb
 
 .vscode/
+
+test/
+
+public1/

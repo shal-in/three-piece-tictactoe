@@ -2,14 +2,11 @@ const path = require("path");
 const http = require("http");
 const express = require("express");
 const socketIO = require("socket.io");
-const { userInfo } = require("os");
-const { use } = require("express/lib/router");
 
 const publicPath = path.join(__dirname, "/../public/");
 let app = express();
 let server = http.createServer(app);
 let io = socketIO(server);
-const rooms = {}
 
 app.use(express.json());
 app.use(express.static(publicPath));
@@ -18,31 +15,41 @@ app.use((req, res, next) => {
     next();
 });
 
-// GET and POST requests
+const rooms = {};
+// Define routes for different URLs
+app.get("/", (req, res) => {
+    res.sendFile(path.join(publicPath, "index.html"));
+});
+
+app.get("/online", (req, res) => {
+    const io = req.io;
+    res.sendFile(path.join(publicPath, "online.html"));
+});
+
 app.get("/createGame", (req, res) => {
     const gameCode = generateUniqueGameCode();
 
     const game = {
         "gameArray": ["", "", "", "", "", "", "", "", ""],
-        "moves": []
+        "lastMoves": [],
+        "currentTurn": "", 
+        "gameState": "waiting"
     }
-
     const room = {
         "users": [],
         "gameCode": gameCode,
-        "game": game
+        "game": game,
     }
 
     rooms[gameCode] = room
 
     const responseData = {
-        "status": "game created",
+        "status": "success",
         "gameCode": gameCode
-    }
-
-    res.json(responseData);
-})
-
+    };
+    
+    res.json(responseData); 
+}); 
 
 app.post("/joinGame", (req, res) => {
     const gameCode = req.body.gameCode;
@@ -70,105 +77,12 @@ app.post("/joinGame", (req, res) => {
     }
 
     const responseData = {
-        "status": "join game",
+        "status": "success",
         "gameCode": gameCode
     };
 
     res.json(responseData);
 })
-
-
-// SocketIO events
-io.on("connection", (socket) => {
-    let sessionID = socket.id;
-
-    socket.emit("connectionResponse", {
-        "status": "server connect",
-        "sessionID": sessionID
-    })
-
-    socket.on("gameConnect", (data) => {
-        let gameCode = data.gameCode;
-
-        if (rooms[gameCode].users.length === 2) {
-            socket.emit("gameConnectResponse", {
-                "status": "failure",
-                "failureReason": "Game lobby full. Please create a new game."
-            })
-            return
-        }
-
-        let playerID;
-        if (rooms[gameCode].users.length === 0) {
-            playerID = "X";
-        }
-        if (rooms[gameCode].users.length === 1) {
-            playerID = "O";
-        }
-
-        let userData = {
-            "sessionID": sessionID,
-            "playerID": playerID
-        }
-
-        rooms[gameCode].users.push(userData);
-
-        socket.emit("gameConnectResponse", {
-            "status": "game connect",
-            "userData": userData,
-            "game": rooms[gameCode].game
-        })
-    }) 
-
-    socket.on("gameReconnect", (data) => {
-        let gameCode = data.gameCode;
-        let oldSessionID = data.oldSessionID;
-
-        for (let userData of rooms[gameCode].users) {
-            if (userData.sessionID === oldSessionID) {
-                userData.sessionID = sessionID
-
-                socket.emit("gameConnectResponse", {
-                    "status": "game reconnect",
-                    "userData": userData,
-                    "game": rooms[gameCode].game
-                })
-            }
-        }
-    })
-
-    socket.on("playMove", (data) => {
-        let move = data.move;
-        gameCode = data.gameCode;
-
-        rooms[gameCode].game.gameArray[move.id] = move.playerID;
-        rooms[gameCode].game.moves.push(move);
-
-        if (rooms[gameCode].game.moves.length > 6) {
-            let removeMove = rooms[gameCode].game.moves[rooms[gameCode].game.moves.length - 7];
-
-            rooms[gameCode].game.gameArray[removeMove.id] = "";
-        }
-
-        for (userData of rooms[gameCode].users) {
-            if (userData.sessionID) {
-                io.to(userData.sessionID).emit("playMoveResponse", {
-                    "status": "success",
-                    "game": rooms[gameCode].game
-                })
-            }
-        }
-    })
-})
-
-// URL paths
-app.get("/", (req, res) => {
-    res.sendFile(path.join(publicPath, "index.html"));
-});
-
-app.get("/local", (req, res) => {
-    res.sendFile(path.join(publicPath, "local.html"));
-});
 
 app.get("/:code", (req, res) => {
     const code = req.params.code;
@@ -186,16 +100,114 @@ app.get("/:code", (req, res) => {
 
 
 
+io.on("connection", (socket) => {
+    let sessionID = socket.id;
+    // console.log(`${sessionID} just connected.`)
 
+    socket.emit("connectionResponse", {
+        "status": "success",
+        "sessionID": sessionID
+    })
 
+    socket.on("gameConnect", (data) => {
+        let gameCode = data.gameCode;
 
+        if (rooms[gameCode].users.length >= 2) {
+            console.log(`${sessionID} cannot join ${gameCode}`);
+            socket.emit("gameConnectResponse", {
+                "status": "failure",
+                "failureReason": "Game lobby full. Please create a new game."
+            })
+            return;
+        }
 
+        let playerID;
+        if (rooms[gameCode].users.length === 0) {
+            playerID = "X";
+            rooms[gameCode].game.currentTurn = "X";
+        }
+        else {
+            playerID = "O";
+        }
+        
+        let userData = {
+            "sessionID": sessionID,
+            "playerID": playerID
+        }
+        
+        rooms[gameCode].users.push(userData);
 
-const port = process.env.PORT || 8081;
+        socket.emit("gameConnectResponse", {
+            "status": "success",
+            "userData": userData,
+            "game": rooms[gameCode].game
+        })
+    })
+
+    socket.on("gameReconnect", (data) => {
+        let gameCode = data.gameCode;
+        let oldSessionID = data.oldSessionID;
+
+        for (let userData of rooms[gameCode].users) {
+            if (userData.sessionID === oldSessionID) {
+                userData.sessionID = sessionID;
+
+                socket.emit("gameConnectResponse", {
+                    "status": "success",
+                    "userData": userData,
+                    "game": rooms[gameCode].game
+                })
+            }
+        }
+    })
+
+    socket.on("gameMove", (data) => {
+        let move = data.move;
+        gameCode = data.gameCode;
+    
+        if (rooms[gameCode].game.gameState === "waiting") {
+            rooms[gameCode].game.gameState = "playing";
+        }
+
+        rooms[gameCode].game.gameArray[move.id] = move.playerID;
+        rooms[gameCode].game.lastMoves.push(move);
+
+        if (rooms[gameCode].game.lastMoves.length > 6) {
+            let removeMove = rooms[gameCode].game.lastMoves[0];
+            rooms[gameCode].game.gameArray[removeMove.id] = "";
+
+            rooms[gameCode].game.lastMoves.splice(0, rooms[gameCode].game.lastMoves.length - 6);
+        }
+
+        currentTurn = rooms[gameCode].game.currentTurn;
+        rooms[gameCode].game.currentTurn = changeTurn(currentTurn);
+
+        winner = checkWinner(rooms[gameCode].game.gameArray);
+        if (winner) {
+            rooms[gameCode].game.gameState = "finished";
+            rooms[gameCode].game.winner = winner
+        }
+
+        for (userData of rooms[gameCode].users) {
+            if (userData.sessionID) {
+                io.to(userData.sessionID).emit("gameMoveResponse", {
+                    "status": "success",
+                    "game": rooms[gameCode].game
+                })
+            }
+        }
+    })
+
+    socket.on("disconnect", () => {
+        // console.log(`${sessionID} disconnected.`)
+    })
+})
+
+const port = process.env.PORT || 8080;
 server.listen(port, "0.0.0.0", () => {
     console.log(`Server listening on port ${port}...`);
     console.log(`Available on http://localhost:${port}`);
-    console.log(`Available on http://192.168.0.218:${port}`);
+    console.log(`Available on http://192.168.0.44:${port}`);
     console.log();  
 })
 
@@ -206,10 +218,6 @@ server.listen(port, "0.0.0.0", () => {
 
 
 
-
-
-
-// Generate game code
 function generateGameCode() {
     const adjectives = {
         "a": ["angry", "agile", "alert", "adorable", "awkward", "artistic", "affectionate", "amazing", "annoying"],
@@ -254,4 +262,37 @@ function getRandomInt(min, max) {
     min = Math.ceil(min);
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+  
+function changeTurn(currentTurn) {
+    if (currentTurn == "X") {
+        return "O"
+    }
+    else {
+        return "X"
+    }
+}
+
+function checkWinner(board) {
+    // Define all possible winning combinations
+    const winningCombinations = [
+        [0, 1, 2], [3, 4, 5], [6, 7, 8], // Rows
+        [0, 3, 6], [1, 4, 7], [2, 5, 8], // Columns
+        [0, 4, 8], [2, 4, 6] // Diagonals
+    ];
+
+    // Iterate through each winning combination
+    for (const combination of winningCombinations) {
+        const [a, b, c] = combination;
+        // Check if the elements at the indexes in the combination are equal and not empty
+        if (board[a] !== '' && board[a] === board[b] && board[a] === board[c]) {
+            // If they are equal, we have a winner
+            return {
+                "id": board[a], 
+            "grids": combination}; // Return the winning symbol ('X' or 'O')
+        }
+    }
+
+    // If no winner is found after checking all combinations, return null
+    return null;
 }
