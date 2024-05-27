@@ -35,7 +35,7 @@ html{
  
 /* General section styling */
 body{
-    background-color: var(--BG-col-main);
+    background-color: red;
     justify-content: center;
     max-width: 900px;
     min-height: 99vh;
