@@ -49,7 +49,7 @@ app.get("/createGame", (req, res) => {
         "gameCode": gameCode
     };
     
-    res.json(responseData);
+    res.json(responseData); 
 }); 
 
 app.post("/joinGame", (req, res) => {
@@ -66,7 +66,7 @@ app.post("/joinGame", (req, res) => {
         return;
     }
 
-    if (rooms[gameCode].users === 2) {
+    if (rooms[gameCode].users.length >= 2) {
         // room is full
         const responseData = {
             "status": "failure",
@@ -114,10 +114,12 @@ io.on("connection", (socket) => {
         let gameCode = data.gameCode;
 
         if (rooms[gameCode].users.length >= 2) {
+            console.log(`${sessionID} cannot join ${gameCode}`);
             socket.emit("gameConnectResponse", {
                 "status": "failure",
                 "failureReason": "Game lobby full. Please create a new game."
             })
+            return;
         }
 
         let playerID;
@@ -126,7 +128,7 @@ io.on("connection", (socket) => {
             rooms[gameCode].game.currentTurn = "X";
         }
         else {
-            playerID = "O"
+            playerID = "O";
         }
         
         let userData = {
