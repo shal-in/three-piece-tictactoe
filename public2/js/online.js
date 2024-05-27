@@ -28,7 +28,8 @@ socket.on("connectionResponse", (data) => {
 socket.on("gameConnectResponse", (data) => {
     if (data.status === "failure") {
         alert(data.failureReason);
-        window.location.href= "/"
+        window.location.href= "/";
+        return
     }
     game = data.game;
 

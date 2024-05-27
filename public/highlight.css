@@ -1,0 +1,126 @@
+/* Highlights */
+:root{
+    --highlight-col-1: orange;
+    --highlight-col-2: yellow;
+    --highlight-col-3: purple;
+    --highlight-col-4: green;
+    --highlight-col-5: orange;
+    --highlight-col-6: red;
+    --highlight-col-7: olive;
+    --highlight-col-7: rgb(0, 119, 128);
+}
+
+.highlight-text-1{
+    color: var(--highlight-col-1);
+}
+
+.highlight-underline-1{
+    border-bottom: 0.5rem solid var(--highlight-col-1);
+}
+
+.highlight-underline-1:hover{
+    color: transparent;
+    background-color: var(--highlight-col-1);
+}
+
+
+.highlight-text-2{
+    color: var(--highlight-col-2);
+}
+
+.highlight-underline-2{
+    border-bottom: 0.5rem solid var(--highlight-col-2);
+}
+
+.highlight-underline-2:hover{
+    color: transparent;
+    background-color: var(--highlight-col-2);
+}
+
+
+.highlight-text-3{
+    color: var(--highlight-col-3);
+}
+
+.highlight-underline-3{
+    border-bottom: 0.5rem solid var(--highlight-col-3);
+}
+
+.highlight-underline-3:hover{
+    color: transparent;
+    background-color: var(--highlight-col-3);
+}
+
+
+.highlight-text-4{
+    color: var(--highlight-col-4);
+}
+
+.highlight-underline-4{
+    border-bottom: 0.5rem solid var(--highlight-col-4);
+}
+
+.highlight-underline-4:hover{
+    color: transparent;
+    background-color: var(--highlight-col-4);
+}
+
+
+.highlight-text-5{
+    color: var(--highlight-col-5);
+}
+
+.highlight-underline-5{
+    border-bottom: 0.5rem solid var(--highlight-col-5);
+}
+
+.highlight-underline-5:hover{
+    color: transparent;
+    background-color: var(--highlight-col-5);
+}
+
+
+.highlight-text-6{
+    color: var(--highlight-col-6);
+}
+
+.highlight-underline-6{
+    border-bottom: 0.5rem solid var(--highlight-col-6);
+}
+
+.highlight-underline-6:hover{
+    color: transparent;
+    background-color: var(--highlight-col-6);
+}
+
+
+.highlight-text-7{
+    color: var(--highlight-col-7);
+}
+
+.highlight-underline-7{
+    border-bottom: 0.5rem solid var(--highlight-col-7);
+}
+
+.highlight-underline-7:hover{
+    color: transparent;
+    background-color: var(--highlight-col-7);
+}
+
+.highlight-text-8{
+    color: var(--highlight-col-8);
+}
+
+.highlight-underline-8{
+    border-bottom: 0.5rem solid var(--highlight-col-8);
+}
+
+.highlight-underline-8a{
+    border-bottom: 0.5rem dashed var(--highlight-col-8);
+}
+
+.highlight-underline-8:hover{
+    color: transparent;
+    background-color: var(--highlight-col-8);
+    background-color: gold;
+}
