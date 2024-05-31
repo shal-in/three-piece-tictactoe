@@ -5,15 +5,32 @@
 }
 
 :root{
-    --BG-col-main: #0F2443;
-    --title-col-main: white;
-    --primary-col-main: #69738D;
-    --overlay-BG-main: #344F7B;
-    --X-col-1-main: red;
-    --X-col-2-main: rgba(255, 0, 0, 0.429);
-    --O-col-1-main: rgb(0, 255, 64);
-    --O-col-2-main: rgba(0, 255, 64, 0.516);
+    --background-main: var(--background-dark);
+    --primary-main: var(--primary-dark);
+    --secondary-main: var(--secondary-dark);
+    --overlay-background-main: var(--overlay-background-dark);
+    --X1-main: var(--X1-dark);
+    --X2-main: var(--X2-dark);
+    --O1-main: var(--O1-dark);
+    --O2-main: var(--O2-dark);
 
+    --background-dark: #0F2443;
+    --primary-dark: white;
+    --secondary-dark: gray;
+    --overlay-background-dark: rgba(0, 0, 0, 0.226);
+    --X1-dark: red;
+    --X2-dark: orange;
+    --O1-dark: pink;
+    --O2-dark: purple;
+
+    --background-light: ;
+    --primary-light: ;
+    --secondary-light: ;
+    --overlay-background-light: ;
+    --X1-light: ;
+    --X2-light: ;
+    --O1-light: ;
+    --O2-light: ;
 }
 
 html{
@@ -34,8 +51,8 @@ html{
 }
 
 body{
-    background-color: var(--BG-col-main);
-    color: var(--primary-col-main);
+    background-color: var(--background-main);
+    color: var(--primary-main);
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -59,8 +76,8 @@ section{
 }
 
 .btn{
-    background-color: var(--BG-col-main);
-    color: var(--primary-col-main);
+    background-color: var(--background-main);
+    color: var(--primary-main);
     border: none;
     padding-bottom: 2px;
     font-size: 1rem;
@@ -68,7 +85,7 @@ section{
 }
 
 .btn:hover{
-    color: var(--BG-col-main);
+    color: var(--background-main);
     cursor: pointer;
 }
 
@@ -86,14 +103,14 @@ section{
 
 #highlight-overlay-container{
     position: absolute;
-    background-color: rgba(0, 0, 0, 0.7);
+    background-color: rgba(0, 0, 0, 0.85);
     width: 100%;
     height: 100%;
     display: none;
 }
 
 .overlay-container{
-    background-color: var(--overlay-BG-main);
+    background-color: var(--overlay-background-main);
     border-radius: 15px;
     border: 0.25rem solid white;
     position: absolute;
@@ -102,10 +119,18 @@ section{
     padding: 1rem;
 }
 
+#notification-container {
+    position: absolute;
+    z-index: 10;
+    border: 1px solid white;
+    margin-top: -70vh;
+    display: none;
+}
+
 /* Index page */
 #main-container{
     border: 1px solid white;
-    color: var(--primary-col-main);
+    color: var(--primary-main);
     min-height: 90vh;
     display: flex;
     flex-direction: column;
@@ -114,7 +139,7 @@ section{
 }
 
 #title-container{
-    color: var(--title-col-main);
+    color: var(--primary-main);
     margin-top: 2rem;
     margin-bottom: auto;
     text-align: center;
@@ -145,8 +170,12 @@ section{
     font-size: 1em;
 }
 
+.overlay-container{
+    background-color: var(--background-main);
+}
+
 #join-input{
-    background-color: var(--overlay-BG-main);
+    background-color: var(--background-main);
     border: none;
     border-bottom: 0.5rem dashed var(--highlight-col-8);
     padding-left: 1rem;
@@ -175,7 +204,7 @@ section{
 #join-input-btn{
     margin-left:3rem;
     font-size: 2rem;
-    background-color: var(--overlay-BG-main);
+    background-color: var(--background-main);
 }
 
 #join-input-btn:hover{
@@ -188,9 +217,9 @@ section{
 #gameboard-top-container{
     display: flex;
     width: 27rem;
-    margin-bottom: 1rem;
+    margin-bottom: 2rem;
     font-size: 1.5rem;
-    color: var(--title-col-main);
+    color: var(--primary-main);
 }
 
 #turn-label{
@@ -198,7 +227,7 @@ section{
 }
 
 #turn-label-symbol{
-    color: gold
+    color: var(--highlight-col-3);
 }
 
 #turn-count{
@@ -206,7 +235,7 @@ section{
 }
 
 #turn-count-number{
-    color: aqua;
+    color: var(--highlight-col-4);
 }
 
 #gameboard{
@@ -219,7 +248,7 @@ section{
 }
 
 .gameboard-grid{
-    border: 2px solid var(--primary-col-main);
+    border: 2px solid var(--primary-main);
     font-size: 80px;
     text-align: center;
     display: flex;
@@ -227,12 +256,15 @@ section{
     align-items: center;
 }
 
-#invite-container{
-    margin-top: 1rem;
-    color: var(--title-col-main);
-    font-size: 1.25rem;
+#invite-btn{
+    margin-top: 2rem;
+    color: var(--primary-main);
+    font-size: 1.75rem;
     max-width: 40rem;
-    display: none;
+}
+
+#invite-btn:hover{
+    cursor: pointer;
 }
 
 /* Top row */
@@ -253,4 +285,30 @@ section{
 /* Right col */
 #gameboard-grid-2, #gameboard-grid-5, #gameboard-grid-8{
     border-right: none;
+}
+
+
+
+
+/* Fade in and fade out */
+@keyframes fade-in{
+    0%{opacity: 0;}
+    100%{opacity: 1;}
+}
+
+.fade-in{
+    animation: fade-in 2s;
+}
+
+@keyframes fade-out{
+    0%{opacity: 1;}
+    100%{opacity: 0;}
+}
+
+.fade-out{
+    animation: fade-out 1s;
+}
+
+.fade-in-out{
+    animation: fade-in 2s infinite alternate;
 }

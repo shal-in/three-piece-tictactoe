@@ -85,7 +85,7 @@ function joinBtnFunction() {
 const joinInputBtnEl = document.getElementById("join-input-btn");
 
 function joinInputBtnFunction() {
-    let joinCode = joinInputEl.value;
+    let joinCode = joinInputEl.value.toLowercase();
 
     if (!isValidGameCode(joinCode)) {
         alert("Invalid join code");

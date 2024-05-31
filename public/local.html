@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href ="highlight.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href ="css/highlight.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Audiowide&display=swap" rel="stylesheet">
@@ -18,7 +18,7 @@
             <button class="btn header-btn highlight-underline-2" id="theme-btn">the<span class="highlight-text-2">m</span>e</button>
         </div>
 
-        <div id="main-container">
+        <div id="main-container fade-in">
             <div id="gameboard-top-container">
                 <div class="gameboard-top" id="turn-label">it is <span id="turn-label-symbol">X</span>'s turn</div>
                 <div class="gameboard-top" id="turn-count">turn count: <span id="turn-count-number">0</span></div>
@@ -34,13 +34,10 @@
                 <div class="gameboard-grid" id="gameboard-grid-7"></div>
                 <div class="gameboard-grid" id="gameboard-grid-8"></div>
             </div>
-            <div id="invite-container">
-                <p id="invite-text">your opponent has not joined yet. <span id="invite-btn">invite them!</span></p>
-            </div>
         </div>
     </section>
     
-    <script src="universal.js"></script>
-    <script src="local.js"></script>
+    <script src="js/universal.js"></script>
+    <script src="js/local.js"></script>
 </body>
 </html>

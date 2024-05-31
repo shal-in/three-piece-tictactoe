@@ -90,6 +90,10 @@ io.on("connection", (socket) => {
     socket.on("gameConnect", (data) => {
         let gameCode = data.gameCode;
 
+        if (!rooms[gameCode]) {
+            return
+        }
+
         if (rooms[gameCode].users.length === 2) {
             socket.emit("gameConnectResponse", {
                 "status": "failure",
@@ -124,6 +128,10 @@ io.on("connection", (socket) => {
         let gameCode = data.gameCode;
         let oldSessionID = data.oldSessionID;
 
+        if (!rooms[gameCode]) {
+            return
+        }
+ 
         for (let userData of rooms[gameCode].users) {
             if (userData.sessionID === oldSessionID) {
                 userData.sessionID = sessionID
@@ -140,6 +148,10 @@ io.on("connection", (socket) => {
     socket.on("playMove", (data) => {
         let move = data.move;
         gameCode = data.gameCode;
+
+        if (!rooms[gameCode]) {
+            return
+        }
 
         rooms[gameCode].game.gameArray[move.id] = move.playerID;
         rooms[gameCode].game.moves.push(move);
