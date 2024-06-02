@@ -22,6 +22,21 @@ themeBtnEl.addEventListener("click", themesBtnFunction)
 
 
 
+// Symbols
+function getSVG(symbol, color=1) {
+    if (symbol === "X") {
+        return `<svg class="game-svg fade-in-2000" id="X-game-svg" width="115" height="115" viewBox="0 0 117 117" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M110.83 6.43311L6.40576 110.857M6.40576 6.43311L39.9706 39.998M58.6177 58.6451L110.83 110.857" stroke="var(--X${color}-main" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>`
+    }
+    else {
+        return `<svg class="game-svg" id="O-game-svg" width="115" height="115" viewBox="0 0 115 115" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M26.8563 15.6546C49.9731 -1.14072 82.3278 3.98376 99.1231 27.1006C115.918 50.2172 110.794 82.572 87.6772 99.3674C64.5606 116.163 32.2056 111.038 15.4104 87.9215C5.85709 74.7725 3.39603 58.6351 7.30358 44.0718" stroke="var(--O${color}-main" stroke-width="11" stroke-linecap="round"/>
+        </svg>`
+    }
+}
+
+
 // Notification
 const notificationContainerEl = document.getElementById("notification-container");
 const notificationTextEl = document.getElementById("notification-text");
@@ -59,3 +74,4 @@ function randomizeHighlightCols() {
 function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
+

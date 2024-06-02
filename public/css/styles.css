@@ -129,13 +129,14 @@ section{
 
 /* Index page */
 #main-container{
-    border: 1px solid white;
     color: var(--primary-main);
     min-height: 90vh;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    margin-right: auto;
+    margin-left: auto;
 }
 
 #title-container{
@@ -214,6 +215,28 @@ section{
 
 
 /* Game page */
+.symbol-svg{
+    width: 1.25rem;
+    height: auto;
+    display: none;
+}
+
+#X-symbol-svg{
+    display: inline;
+    stroke: var(--X1-main)
+}
+
+#O-symbol-svg{
+    stroke: var(--O1-main);
+}
+
+.game-svg{
+    width: 5rem;
+    height: auto;
+    display: none;
+    stroke: red;
+}
+
 #gameboard-top-container{
     display: flex;
     width: 27rem;
@@ -296,8 +319,12 @@ section{
     100%{opacity: 1;}
 }
 
-.fade-in{
+.fade-in-2000{
     animation: fade-in 2s;
+}
+
+.fade-in-350{
+    animation: fade-in 350ms;
 }
 
 @keyframes fade-out{
@@ -305,10 +332,14 @@ section{
     100%{opacity: 0;}
 }
 
-.fade-out{
+.fade-out-2000{
     animation: fade-out 1s;
 }
 
-.fade-in-out{
+.fade-out-350{
+    animation: fade-out 350ms;
+}
+
+.fade-in-out-2000{
     animation: fade-in 2s infinite alternate;
 }

@@ -18,21 +18,104 @@
             <button class="btn header-btn highlight-underline-2" id="theme-btn">the<span class="highlight-text-2">m</span>e</button>
         </div>
 
-        <div id="main-container fade-in">
+        <div id="main-container" class="fade-in">
             <div id="gameboard-top-container">
-                <div class="gameboard-top" id="turn-label">it is <span id="turn-label-symbol">X</span>'s turn</div>
+                <div class="gameboard-top" id="turn-label">it is<span id="turn-label-symbol">
+
+                    <svg class="symbol-svg" id="X-symbol-svg" viewBox="0 0 117 117" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M110.83 6.43311L6.40576 110.857M6.40576 6.43311L39.9706 39.998M58.6177 58.6451L110.83 110.857" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+
+                    <svg class="symbol-svg" id="O-symbol-svg" width="115" height="115" viewBox="0 0 115 115" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M26.8563 15.6546C49.9731 -1.14072 82.3278 3.98376 99.1231 27.1006C115.918 50.2172 110.794 82.572 87.6772 99.3674C64.5606 116.163 32.2056 111.038 15.4104 87.9215C5.85709 74.7725 3.39603 58.6351 7.30358 44.0718" stroke-width="18" stroke-linecap="round"/>
+                    </svg>
+                    
+
+                </span>'s turn</div>
                 <div class="gameboard-top" id="turn-count">turn count: <span id="turn-count-number">0</span></div>
             </div>
             <div id="gameboard">
-                <div class="gameboard-grid" id="gameboard-grid-0"></div>
-                <div class="gameboard-grid" id="gameboard-grid-1"></div>
-                <div class="gameboard-grid" id="gameboard-grid-2"></div>
-                <div class="gameboard-grid" id="gameboard-grid-3"></div>
-                <div class="gameboard-grid" id="gameboard-grid-4"></div>
-                <div class="gameboard-grid" id="gameboard-grid-5"></div>
-                <div class="gameboard-grid" id="gameboard-grid-6"></div>
-                <div class="gameboard-grid" id="gameboard-grid-7"></div>
-                <div class="gameboard-grid" id="gameboard-grid-8"></div>
+                <div class="gameboard-grid" id="gameboard-grid-0">
+                    <svg class="game-svg" id="X-game-0" viewBox="0 0 117 117" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M110.83 6.43311L6.40576 110.857M6.40576 6.43311L39.9706 39.998M58.6177 58.6451L110.83 110.857" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+
+                    <svg class="game-svg" id="O-game-0" width="115" height="115" viewBox="0 0 115 115" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M26.8563 15.6546C49.9731 -1.14072 82.3278 3.98376 99.1231 27.1006C115.918 50.2172 110.794 82.572 87.6772 99.3674C64.5606 116.163 32.2056 111.038 15.4104 87.9215C5.85709 74.7725 3.39603 58.6351 7.30358 44.0718" stroke-width="11" stroke-linecap="round"/>
+                    </svg>
+                </div>
+                <div class="gameboard-grid" id="gameboard-grid-1">
+                    <svg class="game-svg" id="X-game-1" viewBox="0 0 117 117" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M110.83 6.43311L6.40576 110.857M6.40576 6.43311L39.9706 39.998M58.6177 58.6451L110.83 110.857" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+
+                    <svg class="game-svg" id="O-game-1" width="115" height="115" viewBox="0 0 115 115" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M26.8563 15.6546C49.9731 -1.14072 82.3278 3.98376 99.1231 27.1006C115.918 50.2172 110.794 82.572 87.6772 99.3674C64.5606 116.163 32.2056 111.038 15.4104 87.9215C5.85709 74.7725 3.39603 58.6351 7.30358 44.0718" stroke-width="11" stroke-linecap="round"/>
+                    </svg>
+                </div>
+                <div class="gameboard-grid" id="gameboard-grid-2">
+                    <svg class="game-svg" id="X-game-2" viewBox="0 0 117 117" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M110.83 6.43311L6.40576 110.857M6.40576 6.43311L39.9706 39.998M58.6177 58.6451L110.83 110.857" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+
+                    <svg class="game-svg" id="O-game-2" width="115" height="115" viewBox="0 0 115 115" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M26.8563 15.6546C49.9731 -1.14072 82.3278 3.98376 99.1231 27.1006C115.918 50.2172 110.794 82.572 87.6772 99.3674C64.5606 116.163 32.2056 111.038 15.4104 87.9215C5.85709 74.7725 3.39603 58.6351 7.30358 44.0718" stroke-width="11" stroke-linecap="round"/>
+                    </svg>
+                </div>
+                <div class="gameboard-grid" id="gameboard-grid-3">
+                    <svg class="game-svg" id="X-game-3" viewBox="0 0 117 117" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M110.83 6.43311L6.40576 110.857M6.40576 6.43311L39.9706 39.998M58.6177 58.6451L110.83 110.857" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+
+                    <svg class="game-svg" id="O-game-3" width="115" height="115" viewBox="0 0 115 115" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M26.8563 15.6546C49.9731 -1.14072 82.3278 3.98376 99.1231 27.1006C115.918 50.2172 110.794 82.572 87.6772 99.3674C64.5606 116.163 32.2056 111.038 15.4104 87.9215C5.85709 74.7725 3.39603 58.6351 7.30358 44.0718" stroke-width="11" stroke-linecap="round"/>
+                    </svg>
+                </div>
+                <div class="gameboard-grid" id="gameboard-grid-4">
+                    <svg class="game-svg" id="X-game-4" viewBox="0 0 117 117" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M110.83 6.43311L6.40576 110.857M6.40576 6.43311L39.9706 39.998M58.6177 58.6451L110.83 110.857" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+
+                    <svg class="game-svg" id="O-game-4" width="115" height="115" viewBox="0 0 115 115" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M26.8563 15.6546C49.9731 -1.14072 82.3278 3.98376 99.1231 27.1006C115.918 50.2172 110.794 82.572 87.6772 99.3674C64.5606 116.163 32.2056 111.038 15.4104 87.9215C5.85709 74.7725 3.39603 58.6351 7.30358 44.0718" stroke-width="11" stroke-linecap="round"/>
+                    </svg>
+                </div>
+                <div class="gameboard-grid" id="gameboard-grid-5">
+                    <svg class="game-svg" id="X-game-5" viewBox="0 0 117 117" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M110.83 6.43311L6.40576 110.857M6.40576 6.43311L39.9706 39.998M58.6177 58.6451L110.83 110.857" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+
+                    <svg class="game-svg" id="O-game-5" width="115" height="115" viewBox="0 0 115 115" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M26.8563 15.6546C49.9731 -1.14072 82.3278 3.98376 99.1231 27.1006C115.918 50.2172 110.794 82.572 87.6772 99.3674C64.5606 116.163 32.2056 111.038 15.4104 87.9215C5.85709 74.7725 3.39603 58.6351 7.30358 44.0718" stroke-width="11" stroke-linecap="round"/>
+                    </svg>
+                </div>
+                <div class="gameboard-grid" id="gameboard-grid-6">
+                    <svg class="game-svg" id="X-game-6" viewBox="0 0 117 117" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M110.83 6.43311L6.40576 110.857M6.40576 6.43311L39.9706 39.998M58.6177 58.6451L110.83 110.857" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+
+                    <svg class="game-svg" id="O-game-6" width="115" height="115" viewBox="0 0 115 115" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M26.8563 15.6546C49.9731 -1.14072 82.3278 3.98376 99.1231 27.1006C115.918 50.2172 110.794 82.572 87.6772 99.3674C64.5606 116.163 32.2056 111.038 15.4104 87.9215C5.85709 74.7725 3.39603 58.6351 7.30358 44.0718" stroke-width="11" stroke-linecap="round"/>
+                    </svg>
+                </div>
+                <div class="gameboard-grid" id="gameboard-grid-7">
+                    <svg class="game-svg" id="X-game-7" viewBox="0 0 117 117" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M110.83 6.43311L6.40576 110.857M6.40576 6.43311L39.9706 39.998M58.6177 58.6451L110.83 110.857" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+
+                    <svg class="game-svg" id="O-game-7" width="115" height="115" viewBox="0 0 115 115" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M26.8563 15.6546C49.9731 -1.14072 82.3278 3.98376 99.1231 27.1006C115.918 50.2172 110.794 82.572 87.6772 99.3674C64.5606 116.163 32.2056 111.038 15.4104 87.9215C5.85709 74.7725 3.39603 58.6351 7.30358 44.0718" stroke-width="11" stroke-linecap="round"/>
+                    </svg>
+                </div>
+                <div class="gameboard-grid" id="gameboard-grid-8">
+                    <svg class="game-svg" id="X-game-8" viewBox="0 0 117 117" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M110.83 6.43311L6.40576 110.857M6.40576 6.43311L39.9706 39.998M58.6177 58.6451L110.83 110.857" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+
+                    <svg class="game-svg" id="O-game-8" width="115" height="115" viewBox="0 0 115 115" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M26.8563 15.6546C49.9731 -1.14072 82.3278 3.98376 99.1231 27.1006C115.918 50.2172 110.794 82.572 87.6772 99.3674C64.5606 116.163 32.2056 111.038 15.4104 87.9215C5.85709 74.7725 3.39603 58.6351 7.30358 44.0718" stroke-width="11" stroke-linecap="round"/>
+                    </svg>
+                </div>
             </div>
         </div>
     </section>
