@@ -73,13 +73,13 @@ function gridFunction(event) {
     const el = event.target;
     const id = el.id.split("-").pop();
 
-    if (el.textContent) {
-        alert("invalid move");
+    if (nextTurn != playerID) {
+        alert("not your turn");
         return;
     }
 
-    if (nextTurn != playerID) {
-        alert("not your turn");
+    if (el.textContent) {
+        alert("invalid move");
         return;
     }
 
@@ -115,24 +115,28 @@ function setupGrid(game) {
 
         if (symbol != "") {
             gameboardGrids[i].textContent = symbol;
+            gameboardGrids[i].style.color = "black"
         }
         else {
             gameboardGrids[i].textContent = "";
         }
     }
 
+    winner = checkWinner(gameArr);
+    if (winner) {
+        updateTurnLabel(nextTurn, winner.id)
+
+        for (grid of winner.combo) {
+            gameboardGrids[grid].style.backgroundColor = "green";
+        }
+
+        return;
+    }
+
     if (warningMove) {
         gameboardGrids[warningMove.id].style.color = "red";
     }
 
-    winner = checkWinner(gameArr);
-    if (winner) {
-        updateTurnLabel(nextTurn, winner=winner.id)
-
-        console.log(winner.grids)
-
-        return;
-    }
     console.log("cont")
     updateTurnLabel(nextTurn);
 
@@ -165,7 +169,7 @@ function checkWinner(board) {
         if (board[a] !== '' && board[a] === board[b] && board[a] === board[c]) {
             // If they are equal, we have a winner
             return {"id": board[a], 
-            "grids": [a,b,c]};
+            "combo": [a,b,c]};
         }
     }
 
@@ -173,6 +177,7 @@ function checkWinner(board) {
     return null;
 }
 
+// Turn label and turn count
 const turnTextEl = document.getElementById("turn-label");
 const turnLabelEl = document.getElementById("turn-label-symbol");
 const turnCountEl = document.getElementById("turn-count-number");
@@ -187,4 +192,20 @@ function updateTurnLabel(nextTurn, winner=null) {
         return
     }
     turnLabelEl.textContent = nextTurn;
+}
+
+// Invite button
+const currentUrl = window.location.href;
+const urlWithoutProtocol = currentUrl.replace(/^https?:\/\//, '');
+
+const msg = `let's play three-piece tic-tac-toe together!\non ${urlWithoutProtocol}\n\nmade by Shalin.`;
+
+const inviteBtnEl = document.getElementById("invite-btn");
+inviteBtnEl.addEventListener("click", inviteBtnFunction)
+
+function inviteBtnFunction() {
+    navigator.clipboard.writeText(msg)
+        .then(() => {
+            // text copied to clipboard
+        })
 }
