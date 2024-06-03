@@ -51,11 +51,20 @@ onlineBtnEl.addEventListener("click", onlineBtnFunction);
 // Join
 const highlightOverlayContainer = document.getElementById("highlight-overlay-container");
 
-highlightOverlayContainer.addEventListener("click", highlightOverlayContainerFunction);
-
 function highlightOverlayContainerFunction() {
-    highlightOverlayContainer.style.display = "none";
-    joinOverlayContainer.style.display = "none"
+    highlightOverlayContainer.classList.add("fade-out-350");
+    joinOverlayContainer.classList.add("fade-out-350");
+
+    highlightOverlayContainer.classList.remove("fade-in-350");
+    joinOverlayContainer.classList.remove("fade-in-350");
+
+    setTimeout(() => {
+        highlightOverlayContainer.style.display = "none";
+        joinOverlayContainer.style.display = "none";
+
+        highlightOverlayContainer.classList.remove("fade-out-350");
+        joinOverlayContainer.classList.remove("fade-out-350");
+    }, 320);
 }
 
 const joinOverlayContainer = document.getElementById("join-overlay-container");
@@ -76,8 +85,11 @@ const joinBtnEl = document.getElementById("join-btn");
 joinBtnEl.addEventListener("click", joinBtnFunction);
 
 function joinBtnFunction() {
-    highlightOverlayContainer.style.display = "flex";
-    joinOverlayContainer.style.display = "flex";
+    highlightOverlayContainer.classList.add("fade-in-350");
+    joinOverlayContainer.classList.add("fade-in-350");
+
+    highlightOverlayContainer.style.display = "inline";
+    joinOverlayContainer.style.display = "inline";
 
     joinInputEl.focus();
 }
@@ -85,10 +97,10 @@ function joinBtnFunction() {
 const joinInputBtnEl = document.getElementById("join-input-btn");
 
 function joinInputBtnFunction() {
-    let joinCode = joinInputEl.value.toLowercase();
+    let joinCode = joinInputEl.value.toLowerCase();
 
     if (!isValidGameCode(joinCode)) {
-        alert("Invalid join code");
+        createNotification("Invalid join code");
         joinInputEl.value = "";
         return
     }
@@ -125,7 +137,7 @@ joinInputBtnEl.addEventListener("click", joinInputBtnFunction)
 
 document.addEventListener("keydown", (e) => {
     if (e.key === "Enter") {
-        if (joinOverlayContainer.style.display === "flex") {
+        if (joinOverlayContainer.style.display !== "none") {
             joinInputBtnFunction()
         }
     }

@@ -13,9 +13,127 @@
 <body>
     <div id="highlight-overlay-container"></div>
 
-    <div class="overlay-container" id="join-overlay-container">
-        <input type="text" id="join-input" class="highlight-underline-8a" placeholder="insert game code">
-        <button class="btn highlight-underline-8" id="join-input-btn">join</button>
+    <div id="overlay-container">
+        <div class="overlay-container" id="join-overlay-container">
+            <input type="text" id="join-input" class="highlight-underline-8a" placeholder="insert game code">
+            <button class="btn highlight-underline-8" id="join-input-btn">join</button>
+        </div>
+
+        <div class="overlay-container" id="rules-overlay-container">
+            <div id="rules-gameboard">
+                <div class="rules-gameboard-grid" id="rules-gameboard-grid-0">
+                    <svg class="rules-game-svg" id="rules-X-game-0" viewBox="0 0 117 117" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M110.83 6.43311L6.40576 110.857M6.40576 6.43311L39.9706 39.998M58.6177 58.6451L110.83 110.857" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+
+                    <svg class="rules-game-svg" id="rules-O-game-0" width="115" height="115" viewBox="0 0 115 115" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M26.8563 15.6546C49.9731 -1.14072 82.3278 3.98376 99.1231 27.1006C115.918 50.2172 110.794 82.572 87.6772 99.3674C64.5606 116.163 32.2056 111.038 15.4104 87.9215C5.85709 74.7725 3.39603 58.6351 7.30358 44.0718" stroke-width="11" stroke-linecap="round"/>
+                    </svg>
+                </div>
+
+                <div class="rules-gameboard-grid" id="rules-gameboard-grid-1">
+                    <svg class="rules-game-svg" id="rules-X-game-1" viewBox="0 0 117 117" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M110.83 6.43311L6.40576 110.857M6.40576 6.43311L39.9706 39.998M58.6177 58.6451L110.83 110.857" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+
+                    <svg class="rules-game-svg" id="rules-O-game-1" width="115" height="115" viewBox="0 0 115 115" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M26.8563 15.6546C49.9731 -1.14072 82.3278 3.98376 99.1231 27.1006C115.918 50.2172 110.794 82.572 87.6772 99.3674C64.5606 116.163 32.2056 111.038 15.4104 87.9215C5.85709 74.7725 3.39603 58.6351 7.30358 44.0718" stroke-width="11" stroke-linecap="round"/>
+                    </svg>
+                </div>
+
+                <div class="rules-gameboard-grid" id="rules-gameboard-grid-2">
+                    <svg class="rules-game-svg" id="rules-X-game-2" viewBox="0 0 117 117" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M110.83 6.43311L6.40576 110.857M6.40576 6.43311L39.9706 39.998M58.6177 58.6451L110.83 110.857" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+
+                    <svg class="rules-game-svg" id="rules-O-game-2" width="115" height="115" viewBox="0 0 115 115" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M26.8563 15.6546C49.9731 -1.14072 82.3278 3.98376 99.1231 27.1006C115.918 50.2172 110.794 82.572 87.6772 99.3674C64.5606 116.163 32.2056 111.038 15.4104 87.9215C5.85709 74.7725 3.39603 58.6351 7.30358 44.0718" stroke-width="11" stroke-linecap="round"/>
+                    </svg>
+                </div>
+
+                <div class="rules-gameboard-grid" id="rules-gameboard-grid-3">
+                    <svg class="rules-game-svg" id="rules-X-game-3" viewBox="0 0 117 117" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M110.83 6.43311L6.40576 110.857M6.40576 6.43311L39.9706 39.998M58.6177 58.6451L110.83 110.857" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+
+                    <svg class="rules-game-svg" id="rules-O-game-3" width="115" height="115" viewBox="0 0 115 115" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M26.8563 15.6546C49.9731 -1.14072 82.3278 3.98376 99.1231 27.1006C115.918 50.2172 110.794 82.572 87.6772 99.3674C64.5606 116.163 32.2056 111.038 15.4104 87.9215C5.85709 74.7725 3.39603 58.6351 7.30358 44.0718" stroke-width="11" stroke-linecap="round"/>
+                    </svg>
+                </div>
+
+                <div class="rules-gameboard-grid" id="rules-gameboard-grid-4">
+                    <svg class="rules-game-svg" id="rules-X-game-4" viewBox="0 0 117 117" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M110.83 6.43311L6.40576 110.857M6.40576 6.43311L39.9706 39.998M58.6177 58.6451L110.83 110.857" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+
+                    <svg class="rules-game-svg" id="rules-O-game-4" width="115" height="115" viewBox="0 0 115 115" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M26.8563 15.6546C49.9731 -1.14072 82.3278 3.98376 99.1231 27.1006C115.918 50.2172 110.794 82.572 87.6772 99.3674C64.5606 116.163 32.2056 111.038 15.4104 87.9215C5.85709 74.7725 3.39603 58.6351 7.30358 44.0718" stroke-width="11" stroke-linecap="round"/>
+                    </svg>
+                </div>
+
+                <div class="rules-gameboard-grid" id="rules-gameboard-grid-5">
+                    <svg class="rules-game-svg" id="rules-X-game-5" viewBox="0 0 117 117" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M110.83 6.43311L6.40576 110.857M6.40576 6.43311L39.9706 39.998M58.6177 58.6451L110.83 110.857" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+
+                    <svg class="rules-game-svg" id="rules-O-game-5" width="115" height="115" viewBox="0 0 115 115" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M26.8563 15.6546C49.9731 -1.14072 82.3278 3.98376 99.1231 27.1006C115.918 50.2172 110.794 82.572 87.6772 99.3674C64.5606 116.163 32.2056 111.038 15.4104 87.9215C5.85709 74.7725 3.39603 58.6351 7.30358 44.0718" stroke-width="11" stroke-linecap="round"/>
+                    </svg>
+                </div>
+
+                <div class="rules-gameboard-grid" id="rules-gameboard-grid-6">
+                    <svg class="rules-game-svg" id="rules-X-game-6" viewBox="0 0 117 117" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M110.83 6.43311L6.40576 110.857M6.40576 6.43311L39.9706 39.998M58.6177 58.6451L110.83 110.857" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+
+                    <svg class="rules-game-svg" id="rules-O-game-6" width="115" height="115" viewBox="0 0 115 115" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M26.8563 15.6546C49.9731 -1.14072 82.3278 3.98376 99.1231 27.1006C115.918 50.2172 110.794 82.572 87.6772 99.3674C64.5606 116.163 32.2056 111.038 15.4104 87.9215C5.85709 74.7725 3.39603 58.6351 7.30358 44.0718" stroke-width="11" stroke-linecap="round"/>
+                    </svg>
+                </div>
+
+                <div class="rules-gameboard-grid" id="rules-gameboard-grid-7">
+                    <svg class="rules-game-svg" id="rules-X-game-7" viewBox="0 0 117 117" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M110.83 6.43311L6.40576 110.857M6.40576 6.43311L39.9706 39.998M58.6177 58.6451L110.83 110.857" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+
+                    <svg class="rules-game-svg" id="rules-O-game-7" width="115" height="115" viewBox="0 0 115 115" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M26.8563 15.6546C49.9731 -1.14072 82.3278 3.98376 99.1231 27.1006C115.918 50.2172 110.794 82.572 87.6772 99.3674C64.5606 116.163 32.2056 111.038 15.4104 87.9215C5.85709 74.7725 3.39603 58.6351 7.30358 44.0718" stroke-width="11" stroke-linecap="round"/>
+                    </svg>
+                </div>
+
+                <div class="rules-gameboard-grid" id="rules-gameboard-grid-8">
+                    <svg class="rules-game-svg" id="rules-X-game-8" viewBox="0 0 117 117" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M110.83 6.43311L6.40576 110.857M6.40576 6.43311L39.9706 39.998M58.6177 58.6451L110.83 110.857" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+
+                    <svg class="rules-game-svg" id="rules-O-game-8" width="115" height="115" viewBox="0 0 115 115" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M26.8563 15.6546C49.9731 -1.14072 82.3278 3.98376 99.1231 27.1006C115.918 50.2172 110.794 82.572 87.6772 99.3674C64.5606 116.163 32.2056 111.038 15.4104 87.9215C5.85709 74.7725 3.39603 58.6351 7.30358 44.0718" stroke-width="11" stroke-linecap="round"/>
+                    </svg>
+                </div>
+            </div>
+
+            <div id="rules-text">
+                These are the rules. This is another sentence. This is a slightly longer sentence. This is another sentence. More sentences. Even another sentence, longer sentence.
+            </div>
+
+            <div id="rules-bottom">
+                <svg class="rules-arrow" id="rules-left" width="57" height="38" viewBox="0 0 57 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M57 17.234H6.07532L20.8415 2.52032L18.33 0L0.517962 17.7487C0.18621 18.0813 0 18.5311 0 19C0 19.4689 0.18621 19.9187 0.517962 20.2513L18.33 38L20.8415 35.4974L6.07532 20.7837H57V17.234Z" fill="white"/>
+                    </svg>
+                    
+                <div id="rules-progress">
+                    <div class="rules-progress-dot" id="rules-progress-dot-0"></div>
+                    <div class="rules-progress-dot" id="rules-progress-dot-1"></div>
+                    <div class="rules-progress-dot" id="rules-proßgress-dot-2"></div>
+                </div>
+
+                <svg class="rules-arrow" id="rules-right" width="57" height="38" viewBox="0 0 57 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M-1.87235e-06 20.766L50.9247 20.766L36.1585 35.4797L38.67 38L56.482 20.2513C56.8138 19.9187 57 19.4689 57 19C57 18.5311 56.8138 18.0813 56.482 17.7487L38.67 -4.22974e-07L36.1585 2.50257L50.9247 17.2163L-1.87235e-06 17.2163V20.766Z" fill="white"/>
+                </svg>                    
+            </div>
+        </div>
+
+        <div class="overlay-container" id="end-overlay-container"></div>
     </div>
 
     <div id="notification-container">
@@ -40,6 +158,7 @@
             <p id="join-text">already have a game code? <span><button class="btn highlight-underline-7" id="join-btn">j<span class="highlight-text-7">o</span>in ga<span class="highlight-text-7">m</span>e</button></span></p>
         </div>
     </section>
+
     <script src="js/universal.js"></script>
     <script src="js/index.js"></script>
 </body>
