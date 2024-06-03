@@ -17,20 +17,20 @@
     --background-dark: #0F2443;
     --primary-dark: white;
     --secondary-dark: gray;
-    --overlay-background-dark: rgba(0, 0, 0, 0.226);
+    --overlay-background-dark: rgba(0, 0, 0, 0.937);
     --X1-dark: red;
     --X2-dark: orange;
     --O1-dark: pink;
     --O2-dark: purple;
 
-    --background-light: ;
-    --primary-light: ;
-    --secondary-light: ;
-    --overlay-background-light: ;
-    --X1-light: ;
-    --X2-light: ;
-    --O1-light: ;
-    --O2-light: ;
+    --background-light: white;
+    --primary-light: black;
+    --secondary-light: gray;
+    --overlay-background-light: rgba(255, 255, 255, 0.219);
+    --X1-light: green;
+    --X2-light: blue;
+    --O1-light: orange;
+    --O2-light: red;
 }
 
 html{
@@ -103,28 +103,137 @@ section{
 
 #highlight-overlay-container{
     position: absolute;
-    background-color: rgba(0, 0, 0, 0.85);
+    background-color: var(--overlay-background-main);
     width: 100%;
     height: 100%;
     display: none;
 }
 
+#overlay-container{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .overlay-container{
-    background-color: var(--overlay-background-main);
+    background-color: var(--background-main);
     border-radius: 15px;
-    border: 0.25rem solid white;
+    border: 0.125rem solid white;
     position: absolute;
     z-index: 10;
     display: none;
     padding: 1rem;
+    margin-top: 50%;
 }
+
+/* Rules */
+#rules-overlay-container{
+    display: none;
+}
+
+#rules-gameboard{
+    width: 17rem;
+    height: 17rem;
+
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+}
+
+.rules-gameboard-grid{
+    border: 2px solid var(--primary-main);
+    /* font-size: 80px; */
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Top row */
+#rules-gameboard-grid-0, #rules-gameboard-grid-1, #rules-gameboard-grid-2{
+    border-top: none;
+}
+
+/* Bottom row */
+#rules-gameboard-grid-6, #rules-gameboard-grid-7, #rules-gameboard-grid-8{
+    border-bottom: none;
+}
+
+/* Left col */
+#rules-gameboard-grid-0, #rules-gameboard-grid-3, #rules-gameboard-grid-6{
+    border-left: none;
+}
+
+/* Right col */
+#rules-gameboard-grid-2, #rules-gameboard-grid-5, #rules-gameboard-grid-8{
+    border-right: none;
+}
+
+#rules-text{
+    margin-top: 1rem;
+    max-width: 17rem;
+    font-size: 0.75rem;
+    text-align: justify;
+}
+
+#rules-bottom{
+    width: 17rem;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1rem;
+}
+
+#rules-progress{
+    width: 6rem;
+    height: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.rules-progress-dot{
+    width: 0.75rem;
+    height: 0.75rem;
+    border-radius: 100%;
+    background-color: var(--primary-main);
+}
+
+#rules-progress-dot-0{
+    background-color: var(--secondary-main);
+}
+
+.rules-arrow{
+    width: 35px;
+    height: auto;
+    fill: var(--primary-main);
+    stroke: var(--primary-main);
+    stroke-width: 2;
+}
+
+#rules-left{
+    margin-left: 0.5rem;
+    opacity: 0;
+}
+
+#rules-right{
+    margin-right: 0.5rem;
+}
+
+
 
 #notification-container {
     position: absolute;
     z-index: 10;
-    border: 1px solid white;
+    border: 0.25rem solid white;
+    background-color: var(--background-main);
+    padding: 1rem;
+    border-radius: 15px;
     margin-top: -70vh;
     display: none;
+    max-width: 70%;
+    font-size: 1rem;
 }
 
 /* Index page */
@@ -279,17 +388,6 @@ section{
     align-items: center;
 }
 
-#invite-btn{
-    margin-top: 2rem;
-    color: var(--primary-main);
-    font-size: 1.75rem;
-    max-width: 40rem;
-}
-
-#invite-btn:hover{
-    cursor: pointer;
-}
-
 /* Top row */
 #gameboard-grid-0, #gameboard-grid-1, #gameboard-grid-2{
     border-top: none;
@@ -310,6 +408,16 @@ section{
     border-right: none;
 }
 
+#invite-btn{
+    margin-top: 2rem;
+    color: var(--primary-main);
+    font-size: 1.75rem;
+    max-width: 40rem;
+}
+
+#invite-btn:hover{
+    cursor: pointer;
+}
 
 
 
