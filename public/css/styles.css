@@ -69,7 +69,7 @@ section{
     min-height: 99.7vh;
     max-width: 1280px;
     width: 99.7%;
-    border: 1px solid white;
+    /* border: 1px solid white; */
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -104,7 +104,7 @@ section{
 }
 
 #rules-btn{
-display: none;
+    display: none;
 }
 
 /* Game header container*/
@@ -123,6 +123,63 @@ display: none;
     font-size: 1.9em;
     margin-top: -0.4em;
 }
+
+/* Footer */
+#footer-container{
+    display: flex;
+    max-width: 1280px;
+    /* border: 1px solid black; */
+}
+
+.footer-container{
+    /* border: 1px solid black; */
+    margin-left: 1%;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+.footer-btn{
+    background-color: var(--background-main);
+    color: var(--primary-main);
+    border: none;
+    padding-bottom: 2px;
+    font-size: 1rem;
+    font-family: "Audiowide", sans-serif;
+}
+
+#footer-container-1{
+    max-width: 50%;
+    display: flex;
+    flex-direction: column;
+}
+
+#footer-container-1-top{
+    width: 100%;
+    margin-bottom: 0.5rem;
+}
+
+#footer-container-1-bottom{
+    display: flex;
+}
+
+#footer-github{
+    margin-left: auto;
+}
+
+#footer-linkedin{
+    margin-right: auto;
+}
+
+#footer-container-2{
+    max-width: 55%;
+    text-align: justify;
+    margin-left: auto;
+    font-size: 0.75rem;
+    margin-right: 1%;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
 
 
 #highlight-overlay-container{
