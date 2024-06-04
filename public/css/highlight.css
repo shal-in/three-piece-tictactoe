@@ -3,7 +3,7 @@
     --highlight-col-1: orange;
     --highlight-col-2: yellow;
     --highlight-col-3: purple;
-    --highlight-col-4: green;
+    --highlight-col-4: rgb(20, 116, 20);
     --highlight-col-5: orange;
     --highlight-col-6: red;
     --highlight-col-7: olive;
@@ -31,7 +31,7 @@
 .highlight-underline-2{
     border-bottom: 0.5rem solid var(--highlight-col-2);
 }
-
+ 
 .highlight-underline-2:hover{
     color: transparent;
     background-color: var(--highlight-col-2);

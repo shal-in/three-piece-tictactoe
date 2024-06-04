@@ -206,6 +206,6 @@ inviteBtnEl.addEventListener("click", inviteBtnFunction)
 function inviteBtnFunction() {
     navigator.clipboard.writeText(msg)
         .then(() => {
-            // text copied to clipboard
+            createNotification("Invite link copied to clipboard");
         })
 }

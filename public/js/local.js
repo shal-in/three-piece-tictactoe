@@ -33,6 +33,7 @@ function gridFunction(event) {
 
 
 function setupGrid() {
+    winner = checkWinner(gameArr); // [symbol, [combination]]
     if (moves.length >= 6) {
         if (moves.length > 6) {
             removeMove = moves[0]; // {id, symbol}
@@ -42,17 +43,15 @@ function setupGrid() {
             updateGridSquare(removeMove.id, removeMove.symbol, fadeIn=false, fadeOut=true);
         }
 
-        warningMove = moves[0];
-        updateWarningMove(warningMove.id, warningMove.symbol);
+        if (!winner) {
+            warningMove = moves[0];
+            updateWarningMove(warningMove.id, warningMove.symbol);
+        }
     }
- 
-    updateTurnCount(turnCount += 1);
-    updateTurnLabelSymbol(currentTurn);
 
-    winner = checkWinner(gameArr); // [symbol, [combination]]
     if (winner) {
         for (id of winner[1]) {
-            gameboardGrids[id].style.backgroundColor = "green";
+            gameboardGrids[id].style.backgroundColor = "black";
         }
 
         gameboardGrids.forEach(grid => grid.removeEventListener("click", gridFunction));
@@ -60,6 +59,9 @@ function setupGrid() {
         console.log(`${winner[0]} wins!!`);
         return;
     }
+ 
+    updateTurnCount(turnCount += 1);
+    updateTurnLabelSymbol(currentTurn);
 }
 
 

@@ -13,27 +13,31 @@ const leftArrowEl = document.getElementById("rules-left");
 const rightArrowEl = document.getElementById("rules-right");
 
 let i=0;
-leftArrowEl.addEventListener("click", () => {
-    if (i === 0) {
-        console.log(i);
-        return
-    }
-    i -= 1;
-    i = i % rulesProgress.length;
-
-    updateRulesProgress(i);
-})
-rightArrowEl.addEventListener("click", () => {
-    if (i === rulesProgress.length - 1) {
-        console.log(i);
-        return
-    }
-
-    i += 1;
-    i = i % rulesProgress.length;
-
-    updateRulesProgress(i);
-})
+if (leftArrowEl) {
+    leftArrowEl.addEventListener("click", () => {
+        if (i === 0) {
+            console.log(i);
+            return
+        }
+        i -= 1;
+        i = i % rulesProgress.length;
+    
+        updateRulesProgress(i);
+    })
+}
+if (rightArrowEl) {
+    rightArrowEl.addEventListener("click", () => {
+        if (i === rulesProgress.length - 1) {
+            console.log(i);
+            return
+        }
+    
+        i += 1;
+        i = i % rulesProgress.length;
+    
+        updateRulesProgress(i);
+    })
+}
 
 const rulesProgress = Array.from(document.getElementsByClassName("rules-progress-dot"));
 function updateRulesProgress(i) {
@@ -63,7 +67,7 @@ function updateRulesProgress(i) {
 
 // Themes
 const themeBtnEl = document.getElementById("theme-btn");
-const themes = ["dark", "main"];
+const themes = ["dark", "light"];
 let themesIndex = localStorage.getItem("themesIndex");
 if (!themesIndex) {
     themesIndex = 0;
@@ -107,10 +111,11 @@ document.addEventListener("keydown", (event) => {
     }
 })
 
+const highlightOverlayContainer = document.getElementById("highlight-overlay-container");
 function createNotification(text="This is an example notification. This is a longer notification", time=2000) {
     notificationTextEl.textContent = text;
 
-    let highlightOverlayContainerDisplay = highlightOverlayContainer.style.display;
+    let highlightOverlayContainerDisplay = window.getComputedStyle(highlightOverlayContainer).display;
 
     notificationContainerEl.classList.remove("fade-out-350");
     notificationContainerEl.classList.add("fade-in-350");
