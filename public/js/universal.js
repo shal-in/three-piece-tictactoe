@@ -1,4 +1,10 @@
-console.log("universal.js");
+if (window.location.pathname !== "/") {
+    window.addEventListener('beforeunload', function (e) {
+        // Prevent the default unload behavior to show the standard dialog
+        e.preventDefault();
+        e.returnValue = ''; // Some browsers require returnValue to be set
+    });
+}
 
 // Rules
 const ruleBtnEl = document.getElementById("rules-btn");
@@ -77,8 +83,6 @@ if (!themesIndex) {
 }
 
 function themesBtnFunction() {
-    console.log("themes");
-
     themesIndex += 1
     if (themesIndex == themes.length) {
         themesIndex = 0;
@@ -107,7 +111,7 @@ const notificationTextEl = document.getElementById("notification-text");
 
 document.addEventListener("keydown", (event) => {
     if (event.key === "1") {
-        createNotification()
+        createNotification("test")
     }
 })
 
@@ -144,6 +148,15 @@ function createNotification(text="This is an example notification. This is a lon
     }, time) 
 }
 
+// Game title home button
+const gameTitleEl = document.getElementById("game-title-container");
+if (gameTitleEl) {
+    gameTitleEl.style.cursor = "pointer";
+    gameTitleEl.addEventListener("click", () => {
+        window.location.href = "/"
+    })
+}
+
 // Randomize colors
 randomizeHighlightCols();
 
@@ -161,3 +174,48 @@ function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
+function wait(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+// Footer buttons
+const footerRightBtnEls = Array.from(document.getElementsByClassName("footer-hyperlink"));
+
+for (let footerBtnEl of footerRightBtnEls) {
+    footerBtnEl.style.border = "none";
+
+    let hyperlink = footerBtnEl.getAttribute("link");
+
+    footerBtnEl.addEventListener("click", () => {
+        window.open(hyperlink, "_blank")
+    })
+}
+
+const footerLeftBtnEls = Array.from(document.getElementsByClassName("footer-btn"));
+
+for (let footerBtnEl of footerLeftBtnEls) {
+    let hyperlink = footerBtnEl.getAttribute("link");
+
+    footerBtnEl.addEventListener("click", () => {
+        window.open(hyperlink, "_blank")
+    })
+}
+
+const downArrowEl = document.getElementById("down-arrow");
+
+window.addEventListener('scroll', function() {
+    var scrollPosition = window.scrollY || window.pageYOffset;
+    var windowHeight = window.innerHeight;
+    var bodyHeight = document.body.clientHeight;
+    
+    // Check if user has scrolled to the bottom
+    if (scrollPosition + windowHeight >= bodyHeight) {
+        if (window.getComputedStyle(downArrowEl).display !== "none") {
+            downArrowEl.classList.add("fade-out-350");
+            
+            setTimeout(() => {
+                downArrowEl.style.display = "none";
+            }, 348)
+        }
+    }
+});

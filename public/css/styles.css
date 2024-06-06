@@ -2,6 +2,7 @@
 *{
     margin: 0;
     padding: 0;
+    cursor: default;
 }
 
 :root{
@@ -89,6 +90,13 @@ section{
     cursor: pointer;
 }
 
+#down-arrow{
+    position: absolute;
+    font-size: 2rem;
+    bottom: 2rem;
+    right: 2rem;
+}
+
 /* Header container */
 .header-btn{
     font-size: 2.5rem;
@@ -147,6 +155,26 @@ section{
     font-family: "Audiowide", sans-serif;
 }
 
+#footer-linkedin{
+    border-bottom: 0.3rem solid var(--highlight-col-5);
+}
+
+#footer-linkedin:hover{
+    cursor: pointer;
+    background-color: var(--highlight-col-5);
+    color: transparent;
+}
+
+#footer-github{
+    border-bottom: 0.3rem solid var(--highlight-col-6);
+}
+
+#footer-github:hover{
+    cursor: pointer;
+    background-color: var(--highlight-col-6);
+    color: transparent;
+}
+
 #footer-container-1{
     max-width: 50%;
     display: flex;
@@ -180,13 +208,24 @@ section{
     margin-bottom: 1rem;
 }
 
+.footer-hyperlink{
+    border: none;
+    border-bottom: none;
+    font-weight: bold;
+    font-style: italic;
+}
 
+.footer-hyperlink:hover{
+    cursor: pointer;
+}
 
 #highlight-overlay-container{
     position: absolute;
     background-color: var(--overlay-background-main);
-    width: 100%;
-    height: 100%;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 115vh;
     display: none;
 }
 

@@ -13,11 +13,9 @@ function gridFunction(event) {
     const el = event.target;
     const id = el.id.split("-").pop();
 
-    // check winner
-
     if (checkGridTaken(id)) {
-        alert ("invalid move");
-        return
+        createNotification("Invalid move");
+        return;
     }
 
     gameArr[id] = currentTurn;
@@ -33,7 +31,6 @@ function gridFunction(event) {
 
 
 function setupGrid() {
-    winner = checkWinner(gameArr); // [symbol, [combination]]
     if (moves.length >= 6) {
         if (moves.length > 6) {
             removeMove = moves[0]; // {id, symbol}
@@ -42,6 +39,7 @@ function setupGrid() {
 
             updateGridSquare(removeMove.id, removeMove.symbol, fadeIn=false, fadeOut=true);
         }
+        winner = checkWinner(gameArr); // [symbol, [combination]]
 
         if (!winner) {
             warningMove = moves[0];
@@ -50,18 +48,24 @@ function setupGrid() {
     }
 
     if (winner) {
-        for (id of winner[1]) {
-            gameboardGrids[id].style.backgroundColor = "black";
-        }
-
         gameboardGrids.forEach(grid => grid.removeEventListener("click", gridFunction));
 
+
+        setTimeout(() => {
+            createNotification(`${winner[0]} wins!!`);
+
+            for (id of winner[1]) {
+                gameboardGrids[id].style.backgroundColor = "black";
+            }
+        }, 400)
         console.log(`${winner[0]} wins!!`);
         return;
     }
  
     updateTurnCount(turnCount += 1);
     updateTurnLabelSymbol(currentTurn);
+
+    wait(100)
 }
 
 
