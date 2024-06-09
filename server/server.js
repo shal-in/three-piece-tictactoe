@@ -153,7 +153,7 @@ io.on("connection", (socket) => {
             return
         }
 
-        rooms[gameCode].game.gameArray[move.id] = move.playerID;
+        rooms[gameCode].game.gameArray[move.id] = move.symbol;
         rooms[gameCode].game.moves.push(move);
 
         if (rooms[gameCode].game.moves.length > 6) {

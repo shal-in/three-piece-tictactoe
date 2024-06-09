@@ -219,16 +219,32 @@ function addGridEventListeners(action) {
     }
 }
 
-function setupGrid(game, mode="local") {
-    console.log("setup");
+function setupGrid(game, mode="local", initial=false) {
     gameArr = game.gameArray;
     moves = game.moves;
+
+    if (initial) {
+        console.log(gameArr)
+        for (let i=0; i<gameArr.length;  i++) {
+            if (gameArr[i] == "X" || gameArr[i] == "O") {
+                updateGridSquare(i, gameArr[i], fadeIn=true, fadeOut=false);
+            }
+        }
+    }
+
+    if (mode==="online" && currentTurn != playerID && !initial) {
+        lastMove = moves[moves.length - 1];
+
+        if (lastMove) {
+        updateGridSquare(lastMove.id, lastMove.symbol, fadeIn=true, fadeOut=false);
+        }
+    }
 
     if (moves.length >= 6) {
         removeMove = moves[moves.length - 7];
         warningMove = moves[moves.length - 6];
 
-        if (removeMove) {
+        if (removeMove && !initial) {
             if (mode === "local") {
                 gameArr[removeMove.id] = "";
             }
@@ -236,7 +252,6 @@ function setupGrid(game, mode="local") {
         }
 
         winner = checkWinner(gameArr);
-        console.log(winner);
         if (!winner && warningMove) {
             updateWarningMove(warningMove.id, warningMove.symbol);
         }
@@ -296,6 +311,8 @@ function winnerFunction(winner) {
     }
 
     console.log(`${id} wins by ${combo}`);
+
+    addGridEventListeners(false);
 }
 
 // Update grid square function
@@ -304,10 +321,10 @@ function updateGridSquare(id, symbol, fadeIn=false, fadeOut=false, color=1) {
     let svg;
 
     if (symbol === "X") {
-        svg = svgs[0]
+        svg = svgs[0];
     }
     else if (symbol === "O") {
-        svg = svgs[1]
+        svg = svgs[1];
     }
 
     if (fadeIn) {

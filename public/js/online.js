@@ -4,7 +4,7 @@ const parts = window.location.pathname.split("/");
 const gameCode = parts[parts.length - 1];
 
 let oldSessionID = localStorage.getItem(gameCode);
-let playerID; let nextTurn; let moves; let gameArr; let warningMove; let turnCount;
+let playerID; let currentTurn; let moves; let gameArr; let warningMove; let turnCount;
 
 socket = io()
 
@@ -40,15 +40,13 @@ socket.on("gameConnectResponse", (data) => {
 
     game = data.game;
 
-    setupGrid(game);
+    setupGrid(game, mode="online", initial=true);
 })
 
 socket.on("playMoveResponse", (data) => {
-    console.log("playMoveResponse");
-
     game = data.game;
 
-    setupGrid(game);
+    setupGrid(game, mode="online", initial=false);
 })
 
 const gameboardGrids = Array.from(document.querySelectorAll(".gameboard-grid"));
@@ -57,12 +55,12 @@ function gridFunction(event) {
     const el = event.target;
     const id = el.id.split("-").pop();
 
-    if (nextTurn != playerID) {
+    if (currentTurn != playerID) {
         alert("not your turn");
         return;
     }
 
-    if (el.textContent) {
+    if (checkGridTaken(id)) {
         alert("invalid move");
         return;
     }
@@ -71,60 +69,10 @@ function gridFunction(event) {
 
     socket.emit("playMove", {
         "gameCode": gameCode,
-        "move": {"id": id, "playerID": playerID}
+        "move": {"id": id, "symbol": playerID}
     })
 
     addGridEventListeners(false);
-}
-
-function setupGrid(game) {
-    gameArr = game.gameArray;
-    moves = game.moves;
-
-    nextTurn = findNextTurn(moves);
-
-    updateTurnCount(moves.length)
-    
-    if (moves.length >= 6) {
-        lastMoves = moves.slice(-6);
-        warningMove = lastMoves[0];
-    }
-    else {
-        lastMoves = moves;
-        warningMove;
-    }
-
-    for (let i=0; i<9; i++) {
-        symbol = gameArr[i];
-
-        if (symbol != "") {
-            gameboardGrids[i].textContent = symbol;
-            gameboardGrids[i].style.color = "black"
-        }
-        else {
-            gameboardGrids[i].textContent = "";
-        }
-    }
-
-    winner = checkWinner(gameArr);
-    if (winner) {
-        updateTurnLabel(nextTurn, winner.id)
-
-        for (grid of winner.combo) {
-            gameboardGrids[grid].style.backgroundColor = "green";
-        }
-
-        return;
-    }
-
-    if (warningMove) {
-        gameboardGrids[warningMove.id].style.color = "red";
-    }
-
-    console.log("cont")
-    updateTurnLabel(nextTurn);
-
-    addGridEventListeners(true)
 }
 
 
