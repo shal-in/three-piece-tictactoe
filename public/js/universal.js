@@ -157,27 +157,6 @@ if (gameTitleEl) {
     })
 }
 
-// Randomize colors
-randomizeHighlightCols();
-
-function randomizeHighlightCols() {
-    // [green, pink, purple, orange, blue, yellow]
-    let colors = ["#89fc00", "#ff006e", "#9016d2", "#ff5714", "#00bbf9", "#fbff12"];
-
-    for (let i=0; i<=8; i++) {
-        let randomColor = colors[getRandomInt(0, colors.length - 1)];
-        document.documentElement.style.setProperty(`--highlight-col-${i}`, randomColor);
-    }
-}
-
-function getRandomInt(min, max) {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-}
-
-function wait(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-}
-
 // Footer buttons
 const footerRightBtnEls = Array.from(document.getElementsByClassName("footer-hyperlink"));
 
@@ -219,3 +198,209 @@ window.addEventListener('scroll', function() {
         }
     }
 });
+
+
+
+
+// Helper functions
+function addGridEventListeners(action) {
+    if (action) {
+        for (grid of gameboardGrids) {
+            grid.addEventListener("click", gridFunction);
+        }
+        return;
+    }
+
+    else{
+        for (grid of gameboardGrids) {
+            grid.removeEventListener("click", gridFunction);
+        }
+        return;
+    }
+}
+
+function setupGrid(game, mode="local") {
+    console.log("setup");
+    gameArr = game.gameArray;
+    moves = game.moves;
+
+    if (moves.length >= 6) {
+        removeMove = moves[moves.length - 7];
+        warningMove = moves[moves.length - 6];
+
+        if (removeMove) {
+            if (mode === "local") {
+                gameArr[removeMove.id] = "";
+            }
+            updateGridSquare(removeMove.id, removeMove.symbol, fadeIn=false, fadeOut=true);
+        }
+
+        winner = checkWinner(gameArr);
+        console.log(winner);
+        if (!winner && warningMove) {
+            updateWarningMove(warningMove.id, warningMove.symbol);
+        }
+
+        else if (winner) {
+            winnerFunction(winner);
+            return;
+        }
+    }
+
+    currentTurn = findNextTurn(moves);
+    updateTurnCount(moves);
+    updateTurnLabelSymbol(currentTurn);
+    addGridEventListeners(true);
+}
+
+function findNextTurn(moves) {
+    movesNum = moves.length;
+
+    if (movesNum % 2 === 0) {
+        return "X"
+    }
+    else {
+        return "O"
+    }
+}
+
+function checkWinner(board) {
+    // Define all possible winning combinations
+    const winningCombinations = [
+        [0, 1, 2], [3, 4, 5], [6, 7, 8], // Rows
+        [0, 3, 6], [1, 4, 7], [2, 5, 8], // Columns
+        [0, 4, 8], [2, 4, 6] // Diagonals
+    ];
+
+    // Iterate through each winning combination
+    for (const combination of winningCombinations) {
+        const [a, b, c] = combination;
+        // Check if the elements at the indexes in the combination are equal and not empty
+        if (board[a] !== '' && board[a] === board[b] && board[a] === board[c]) {
+            // If they are equal, we have a winner
+            return {"id": board[a], 
+            "combo": [a,b,c]};
+        }
+    }
+
+    // If no winner is found after checking all combinations, return null
+    return null;
+}
+
+function winnerFunction(winner) {
+    let id; let combo;
+
+    if (winner) {
+        id = winner.id;
+        combo = winner.combo;
+    }
+
+    console.log(`${id} wins by ${combo}`);
+}
+
+// Update grid square function
+function updateGridSquare(id, symbol, fadeIn=false, fadeOut=false, color=1) {
+    let svgs = gameboardGrids[id].getElementsByTagName("svg");
+    let svg;
+
+    if (symbol === "X") {
+        svg = svgs[0]
+    }
+    else if (symbol === "O") {
+        svg = svgs[1]
+    }
+
+    if (fadeIn) {
+        svg.style.stroke = `var(--${symbol}${color}-main)`;
+        svg.classList.remove("fade-out-350");
+        svg.classList.add("fade-in-350");
+        setTimeout(() => {
+            svg.style.display = "inline"
+        }, 348);
+    } else if (fadeOut) {
+        svg.classList.remove("fade-in-350");
+        svg.classList.add("fade-out-350");
+        setTimeout(() => {
+            svg.style.display = "none"
+        }, 348);
+    }
+}
+
+// Update warning move
+function updateWarningMove(id, symbol) {
+    updateGridSquare(id, symbol, fadeIn=false, fadeOut=true, color=1);
+
+    setTimeout(() => {
+        updateGridSquare(id, symbol, fadeIn=true, fadeOut=false, color=2);
+    }, 348)
+}
+
+// Check if grid is taken
+function checkGridTaken(id) {
+    let svgs = gameboardGrids[id].getElementsByTagName("svg");
+
+    for (let svg of svgs) {
+        if (window.getComputedStyle(svg).display !== "none") {
+            return true
+        }
+    }
+    return false
+}
+
+
+// Turn label and turn count
+const turnCountEl = document.getElementById("turn-count-number");
+const turnLabelSymbolEl = document.getElementById("turn-label-symbol");
+const XLabelSymbolEl = document.getElementById("X-symbol-svg");
+const OLabelSymbolEl = document.getElementById("O-symbol-svg");
+function updateTurnLabelSymbol(turnLabel) {
+    if (turnLabel === "X") {
+        OLabelSymbolEl.classList.add("fade-out-350");
+        setTimeout(()=> {
+            OLabelSymbolEl.style.display = "none";
+            XLabelSymbolEl.classList.add("fade-in-350");
+            XLabelSymbolEl.style.display = "inline";
+            OLabelSymbolEl.classList.remove("fade-out-350");
+        }, 348)
+    }
+
+    if (turnLabel === "O") {
+        XLabelSymbolEl.classList.add("fade-out-350");
+        setTimeout(()=> {
+            XLabelSymbolEl.style.display = "none";
+            OLabelSymbolEl.classList.add("fade-in-350");
+            OLabelSymbolEl.style.display = "inline";
+            XLabelSymbolEl.classList.remove("fade-out-350");
+        }, 348);
+    }
+}
+
+function updateTurnCount(moves) {
+    let turnCount = moves.length;
+
+    turnCountEl.classList.add("fade-out-350");
+    turnCountEl.classList.remove("fade-in-350")
+    setTimeout(() => {
+        turnCountEl.textContent = turnCount;
+        turnCountEl.classList.add("fade-in-350");
+        turnCountEl.classList.remove("fade-out-350");
+    }, 348)
+}
+
+
+// Randomize colors
+randomizeHighlightCols();
+
+function randomizeHighlightCols() {
+    // [green, pink, purple, orange, blue, yellow]
+    let colors = ["#89fc00", "#ff006e", "#9016d2", "#ff5714", "#00bbf9", "#fbff12"];
+
+    for (let i=0; i<=8; i++) {
+        let randomColor = colors[getRandomInt(0, colors.length - 1)];
+        document.documentElement.style.setProperty(`--highlight-col-${i}`, randomColor);
+    }
+}
+
+function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}

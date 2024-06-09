@@ -53,22 +53,6 @@ socket.on("playMoveResponse", (data) => {
 
 const gameboardGrids = Array.from(document.querySelectorAll(".gameboard-grid"));
 
-function addGridEventListeners(action) {
-    if (action) {
-        for (grid of gameboardGrids) {
-            grid.addEventListener("click", gridFunction);
-        }
-        return;
-    }
-
-    else{
-        for (grid of gameboardGrids) {
-            grid.removeEventListener("click", gridFunction);
-        }
-        return;
-    }
-}
-
 function gridFunction(event) {
     const el = event.target;
     const id = el.id.split("-").pop();
@@ -83,7 +67,7 @@ function gridFunction(event) {
         return;
     }
 
-    el.textContent = playerID;
+    updateGridSquare(id, playerID, fadeIn=true, fadeOut=false, color=1);
 
     socket.emit("playMove", {
         "gameCode": gameCode,
@@ -143,56 +127,6 @@ function setupGrid(game) {
     addGridEventListeners(true)
 }
 
-function findNextTurn(moves) {
-    movesNum = moves.length;
-
-    if (movesNum % 2 === 0) {
-        return "X"
-    }
-    else {
-        return "O"
-    }
-}
-
-function checkWinner(board) {
-    // Define all possible winning combinations
-    const winningCombinations = [
-        [0, 1, 2], [3, 4, 5], [6, 7, 8], // Rows
-        [0, 3, 6], [1, 4, 7], [2, 5, 8], // Columns
-        [0, 4, 8], [2, 4, 6] // Diagonals
-    ];
-
-    // Iterate through each winning combination
-    for (const combination of winningCombinations) {
-        const [a, b, c] = combination;
-        // Check if the elements at the indexes in the combination are equal and not empty
-        if (board[a] !== '' && board[a] === board[b] && board[a] === board[c]) {
-            // If they are equal, we have a winner
-            return {"id": board[a], 
-            "combo": [a,b,c]};
-        }
-    }
-
-    // If no winner is found after checking all combinations, return null
-    return null;
-}
-
-// Turn label and turn count
-const turnTextEl = document.getElementById("turn-label");
-const turnLabelEl = document.getElementById("turn-label-symbol");
-const turnCountEl = document.getElementById("turn-count-number");
-
-function updateTurnCount(turnCount) {
-    turnCountEl.textContent = turnCount;
-}
-
-function updateTurnLabel(nextTurn, winner=null) {
-    if (winner) {
-        turnTextEl.textContent = `${winner} wins !!` 
-        return
-    }
-    turnLabelEl.textContent = nextTurn;
-}
 
 // Invite button
 const currentUrl = window.location.href;
