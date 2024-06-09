@@ -49,8 +49,6 @@ onlineBtnEl.addEventListener("click", onlineBtnFunction);
 
 
 // Join
-const highlightOverlayContainer = document.getElementById("highlight-overlay-container");
-
 function highlightOverlayContainerFunction() {
     highlightOverlayContainer.classList.add("fade-out-350");
     joinOverlayContainer.classList.add("fade-out-350");
