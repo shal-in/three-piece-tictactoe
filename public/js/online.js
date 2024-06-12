@@ -1,5 +1,3 @@
-console.log("online.js");
-
 const parts = window.location.pathname.split("/");
 const gameCode = parts[parts.length - 1];
 
@@ -10,8 +8,6 @@ socket = io()
 
 socket.on("connectionResponse", (data) => {
     const sessionID = data.sessionID;
-
-    console.log(sessionID);
 })
 
 if (!oldSessionID) {
@@ -36,7 +32,6 @@ socket.on("gameConnectResponse", (data) => {
     localStorage.setItem(gameCode, data.userData.sessionID);
 
     playerID = data.userData.playerID;
-    console.log(`you are ${playerID}`);
 
     game = data.game;
 
@@ -83,6 +78,8 @@ const urlWithoutProtocol = currentUrl.replace(/^https?:\/\//, '');
 const inviteBtnEl = document.getElementById("invite-btn");
 inviteBtnEl.addEventListener("click", inviteBtnFunction)
 
+const gameCodeEl = document.getElementById("gamecode");
+gameCodeEl.textContent = gameCode;
 
 function inviteBtnFunction() {
     const msg = `let's play three-piece tic-tac-toe together!\non ${urlWithoutProtocol}\n\nmade by Shalin.`;
@@ -104,7 +101,6 @@ function copyToClipboard(text) {
             return;
         }
         navigator.clipboard.writeText(text).then(() => {
-            console.log('Text copied to clipboard');
             resolve();
         }).catch(err => {
             console.error('Failed to copy text using Clipboard API, using fallback method. Error:', err);
@@ -139,7 +135,6 @@ function fallbackCopyTextToClipboard(text) {
         try {
             const successful = document.execCommand('copy');
             const msg = successful ? 'successful' : 'unsuccessful';
-            console.log('Fallback: Copying text command was ' + msg);
             document.body.removeChild(textArea);
             if (successful) {
                 resolve();

@@ -1,5 +1,3 @@
-console.log("local.js");
-
 // Select all elements with class "gameboard-grid" and convert them into an array
 const gameboardGrids = Array.from(document.querySelectorAll(".gameboard-grid"));
 addGridEventListeners(true);
@@ -9,7 +7,7 @@ const game = {
     "moves": []
 }
 
-let currentTurn = "X";ß
+let currentTurn = "X"; let playerID;
 
 function gridFunction(event) {
     const el = event.target;

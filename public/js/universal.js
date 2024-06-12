@@ -6,71 +6,6 @@ if (window.location.pathname !== "/") {
     });
 }
 
-// Rules
-const ruleBtnEl = document.getElementById("rules-btn");
-
-function rulesBtnFunction() {
-    createNotification("Rules functionality coming soon");
-}
-
-ruleBtnEl.addEventListener("click", rulesBtnFunction)
-
-const leftArrowEl = document.getElementById("rules-left");
-const rightArrowEl = document.getElementById("rules-right");
-
-let i=0;
-if (leftArrowEl) {
-    leftArrowEl.addEventListener("click", () => {
-        if (i === 0) {
-            console.log(i);
-            return
-        }
-        i -= 1;
-        i = i % rulesProgress.length;
-    
-        updateRulesProgress(i);
-    })
-}
-if (rightArrowEl) {
-    rightArrowEl.addEventListener("click", () => {
-        if (i === rulesProgress.length - 1) {
-            console.log(i);
-            return
-        }
-    
-        i += 1;
-        i = i % rulesProgress.length;
-    
-        updateRulesProgress(i);
-    })
-}
-
-const rulesProgress = Array.from(document.getElementsByClassName("rules-progress-dot"));
-function updateRulesProgress(i) {
-    for (let k=0; k < rulesProgress.length; k++) {
-        if (k === i) {
-            rulesProgress[k].style.backgroundColor = `var(--secondary-main)`
-        }
-        else {
-            rulesProgress[k].style.backgroundColor = `var(--primary-main)`
-        }
-    }
-
-    if (i === rulesProgress.length - 1) {
-        rightArrowEl.style.opacity = "0";
-    }
-    else {
-        rightArrowEl.style.opacity = "1";
-    }
-
-    if (i === 0) {
-        leftArrowEl.style.opacity = "0";
-    }
-    else {
-        leftArrowEl.style.opacity = "1";
-    }
-}
-
 // Themes
 const themeBtnEl = document.getElementById("theme-btn");
 const themes = ["dark", "light"];
@@ -98,6 +33,7 @@ function themesBtnFunction() {
     root.style.setProperty(`--X2-main`, `var(--X2-${themes[themesIndex]})`);
     root.style.setProperty(`--O1-main`, `var(--O1-${themes[themesIndex]})`);
     root.style.setProperty(`--O2-main`, `var(--O2-${themes[themesIndex]})`);
+    root.style.setProperty(`--winner-main`, `var(--winner-${themes[themesIndex]})`);
 
 }
 
@@ -224,7 +160,6 @@ function setupGrid(game, mode="local", initial=false) {
     moves = game.moves;
 
     if (initial) {
-        console.log(gameArr)
         for (let i=0; i<gameArr.length;  i++) {
             if (gameArr[i] == "X" || gameArr[i] == "O") {
                 updateGridSquare(i, gameArr[i], fadeIn=true, fadeOut=false);
@@ -240,7 +175,7 @@ function setupGrid(game, mode="local", initial=false) {
         }
     }
 
-    if (moves.length >= 6) {
+    if (moves.length >= 5) {
         removeMove = moves[moves.length - 7];
         warningMove = moves[moves.length - 6];
 
@@ -257,7 +192,7 @@ function setupGrid(game, mode="local", initial=false) {
         }
 
         else if (winner) {
-            winnerFunction(winner);
+            winnerFunction(winner, moves, mode, playerID)
             return;
         }
     }
@@ -302,7 +237,9 @@ function checkWinner(board) {
     return null;
 }
 
-function winnerFunction(winner) {
+function winnerFunction(winner, moves, mode="local", playerID) {
+    updateTurnCount(moves);
+
     let id; let combo;
 
     if (winner) {
@@ -310,7 +247,29 @@ function winnerFunction(winner) {
         combo = winner.combo;
     }
 
-    console.log(`${id} wins by ${combo}`);
+    let turnCount = findTurnCount(moves);
+
+    if (mode === "online") {
+        if (playerID === id) {
+            winnerText = `congrats! you won in ${turnCount} moves!!`
+        }
+        else {
+            winnerText = `unlucky :( your opponent won in ${turnCount} moves.`
+        }
+    }
+    else {
+        winnerText = `${id} wins in ${turnCount} moves`
+    }
+
+    setTimeout(() => {
+        for (let grid of combo) {
+            gameboardGrids[grid].style.backgroundColor = `var(--winner-main)`;
+        }
+    }, 800)
+
+    setTimeout(() => {
+        createNotification(winnerText, 4000)
+    }, 1800)
 
     addGridEventListeners(false);
 }
@@ -392,8 +351,12 @@ function updateTurnLabelSymbol(turnLabel) {
     }
 }
 
+function findTurnCount(moves) {
+    return moves.length;
+}
+
 function updateTurnCount(moves) {
-    let turnCount = moves.length;
+    turnCount = findTurnCount(moves);
 
     turnCountEl.classList.add("fade-out-350");
     turnCountEl.classList.remove("fade-in-350")
@@ -404,6 +367,9 @@ function updateTurnCount(moves) {
     }, 348)
 }
 
+function wait(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
 
 // Randomize colors
 randomizeHighlightCols();
